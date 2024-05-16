@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>图床搭建（gitee+PicGo）</title>
+      <link href="/2023/12/29/gitee+%E5%9B%BE%E5%BA%8A/"/>
+      <url>/2023/12/29/gitee+%E5%9B%BE%E5%BA%8A/</url>
+      
+        <content type="html"><![CDATA[<h1 id="gitee操作"><a href="#gitee操作" class="headerlink" title="gitee操作"></a>gitee操作</h1><h2 id="新建一个gitee仓库"><a href="#新建一个gitee仓库" class="headerlink" title="新建一个gitee仓库"></a>新建一个gitee仓库</h2><p><strong>在gitee中新建一个仓库</strong></p><p><img src="https://gitee.com/LemonWorld/picture/raw/master/img/image-20231229114138866.png"></p><p><strong>新建的仓库配置</strong></p><p><img src="https://gitee.com/LemonWorld/picture/raw/master/img/%E6%96%B0%E5%BB%BA.png"></p><h2 id="私人令牌的设置"><a href="#私人令牌的设置" class="headerlink" title="私人令牌的设置"></a>私人令牌的设置</h2><p><strong>点击图像，选择“设置”选项</strong></p><p><img src="https://gitee.com/LemonWorld/picture/raw/master/img/image-20231229115340444.png"></p><p><strong>选择左栏中的“私人令牌”选项</strong></p><p><img src="https://gitee.com/LemonWorld/picture/raw/master/img/%E7%A7%81%E4%BA%BA.png"></p><p><strong>选择“生成新令牌”，进行配置</strong></p><p><img src="https://gitee.com/LemonWorld/picture/raw/master/img/%E9%80%89%E6%8B%A9.png"></p><h3 id="一定要复制密钥"><a href="#一定要复制密钥" class="headerlink" title="一定要复制密钥"></a><strong>一定要复制密钥</strong></h3><h3 id="新建img文件夹"><a href="#新建img文件夹" class="headerlink" title="新建img文件夹"></a>新建img文件夹</h3><p><img src="https://gitee.com/LemonWorld/picture/raw/master/img/img.png"></p><h2 id="PicGo操作"><a href="#PicGo操作" class="headerlink" title="PicGo操作"></a>PicGo操作</h2><h3 id="安装PicGo软件"><a href="#安装PicGo软件" class="headerlink" title="安装PicGo软件"></a>安装PicGo软件</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://soft.3dmgame.com/down/263292.html</span><br></pre></td></tr></table></figure><h3 id="PicGo内部配置"><a href="#PicGo内部配置" class="headerlink" title="PicGo内部配置"></a>PicGo内部配置</h3><h4 id="选择“插件设置”进行配置"><a href="#选择“插件设置”进行配置" class="headerlink" title="选择“插件设置”进行配置"></a>选择“插件设置”进行配置</h4><p><img src="https://gitee.com/LemonWorld/picture/raw/master/img/gitee%E5%86%85%E9%83%A8%E9%85%8D%E7%BD%AE.png"></p><h4 id="在“图床设置”中的”gitee“进行配置"><a href="#在“图床设置”中的”gitee“进行配置" class="headerlink" title="在“图床设置”中的”gitee“进行配置"></a>在“图床设置”中的”gitee“进行配置</h4><p><img src="https://gitee.com/LemonWorld/picture/raw/master/img/%E5%9B%BE%E5%BA%8A.png"></p><h4 id="修改”上传区“中的方式"><a href="#修改”上传区“中的方式" class="headerlink" title="修改”上传区“中的方式"></a>修改”上传区“中的方式</h4><p><img src="https://gitee.com/LemonWorld/picture/raw/master/img/%E4%B8%8A%E4%BC%A0.png"></p><h1 id="恭喜你，搭建完成了！"><a href="#恭喜你，搭建完成了！" class="headerlink" title="恭喜你，搭建完成了！"></a>恭喜你，搭建完成了！</h1>]]></content>
+      
+      
+      <categories>
+          
+          <category> 学习支线 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 博客相关 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
+    
+    
+    <entry>
+      <title>目录</title>
+      <link href="/categories/index.html"/>
+      <url>/categories/index.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>相关链接</title>
+      <link href="/link/index.html"/>
+      <url>/link/index.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>标签</title>
+      <link href="/tags/index.html"/>
+      <url>/tags/index.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>关于我</title>
+      <link href="/about/index.html"/>
+      <url>/about/index.html</url>
+      
+        <content type="html"><![CDATA[<p>哪个英文字母最酷？ <span class="hide-inline"><button type="button" class="hide-button" style="background-color: #FF7242;color: #fff">查看答案  </button><span class="hide-content">因为西装裤(C装酷)</span></span></p>]]></content>
+      
+    </entry>
+    
+    
+  
+</search>
