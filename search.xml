@@ -4,6 +4,145 @@
   
     
     <entry>
+      <title>HBase的伸缩性和可用性</title>
+      <link href="/2024/03/06/HBase%E4%BC%B8%E7%BC%A9%E6%80%A7%E5%92%8C%E5%8F%AF%E7%94%A8%E6%80%A7/"/>
+      <url>/2024/03/06/HBase%E4%BC%B8%E7%BC%A9%E6%80%A7%E5%92%8C%E5%8F%AF%E7%94%A8%E6%80%A7/</url>
+      
+        <content type="html"><![CDATA[<h1 id="伸缩性"><a href="#伸缩性" class="headerlink" title="伸缩性"></a>伸缩性</h1><h2 id="1-”伸”的讲解-split"><a href="#1-”伸”的讲解-split" class="headerlink" title="1.”伸”的讲解(split)"></a>1.”伸”的讲解(split)</h2><h3 id="策略一：增长式分裂策略-默认"><a href="#策略一：增长式分裂策略-默认" class="headerlink" title="策略一：增长式分裂策略(默认)"></a>策略一：增长式分裂策略(默认)</h3><h4 id="简化图如下："><a href="#简化图如下：" class="headerlink" title="简化图如下："></a><strong>简化图如下</strong>：</h4><p><img src="https://gitee.com/LemonWorld/picture/raw/master/img/increasing3.0.png" alt="增长式(increasing)分裂策略"></p><h4 id="过程讲解："><a href="#过程讲解：" class="headerlink" title="过程讲解："></a><strong>过程讲解</strong>：</h4><p>客户端建表后，会在一台机器上有一个Region，客户端不断put数据进来。随着数据的增加，当Region达到阈值【阈值可以配置】时，会进行**分裂(split)**操作。</p><p>由于两个同样Region无法存在于同一个服务器上，因此需要迁移操作。由<strong>HMaster进行主导</strong>，<strong>HMaster会通知HRegionMaster将分裂出来的Region迁移到到哪台服务器上。</strong></p><p>同时<strong>HMaster会进行元数据的变更</strong>。在HMaster中的元数据记录中<strong>增加一条记录</strong>【标明Region1路径在哪台服务器上，Region2路径在哪台服务器上】</p><h4 id="存在缺陷："><a href="#存在缺陷：" class="headerlink" title="存在缺陷："></a><strong>存在缺陷</strong>：</h4><p>当进行数据迁移的时候，写数据会处于堵塞状态，从而产生一定的延迟。严重时甚至会导致数据的丢失。</p><h3 id="策略二：预分裂策略-改良版"><a href="#策略二：预分裂策略-改良版" class="headerlink" title="策略二：预分裂策略(改良版)"></a>策略二：预分裂策略(改良版)</h3><h4 id="简化图如下：-1"><a href="#简化图如下：-1" class="headerlink" title="简化图如下："></a><strong>简化图如下</strong>：</h4><p><img src="https://gitee.com/LemonWorld/picture/raw/master/img/%E9%A2%84%E5%88%86%E8%A3%82.png" alt="预分裂策略"></p><h4 id="过程讲解：-1"><a href="#过程讲解：-1" class="headerlink" title="过程讲解："></a>过程讲解：</h4><p>在写入之前，提前预估表的数据量，算出所需分区的数量。提前在RegionServer上面进行分裂操作，即：提前把空间占好。</p><h4 id="效果："><a href="#效果：" class="headerlink" title="效果："></a>效果：</h4><p>写性能大幅度提高，速度快。</p><h4 id="数据分布均匀考虑："><a href="#数据分布均匀考虑：" class="headerlink" title="数据分布均匀考虑："></a>数据分布均匀考虑：</h4><p>可以在每个Region处设定一定的范围【以关系型数据库中表的主键为例，设定主键在1<del>100之间的进入Region1中，主键在101</del>200之间的进入Region2中，主键在201~300之间的进入Region3中】，这样数据进入Region中时会均匀的分配。</p><h4 id="预分区的实际操作："><a href="#预分区的实际操作：" class="headerlink" title="预分区的实际操作："></a>预分区的实际操作：</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">7.预分区（hbase优化）</span></span><br><span class="line">7.1、预分区</span><br><span class="line">策略一：【NUMREGIONS：分区数量；SPLITALGO：分裂所采用的算法】</span><br><span class="line">create &quot;test_hbase:test_split&quot;,&quot;t1&quot;,&quot;t2&quot;,&#123;NUMREGIONS=&gt;3,SPLITALGO=&gt;&quot;UniformSplit&quot;&#125;</span><br><span class="line">策略二：【SPLITS：行键取值范围（字母或数字）】</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">##取值范围：0~100,101~200,201~300,301以上</span></span></span><br><span class="line">create &quot;test_hbase:test_rowkey_split&quot;,&quot;cf1&quot;,&quot;cf2&quot;,SPLITS=&gt;[&quot;100&quot;,&quot;200&quot;,&quot;300&quot;]</span><br><span class="line"></span><br><span class="line">7.2、查看分区</span><br><span class="line">scan &quot;hbase:meta&quot;,&#123;STARTROW=&gt;&quot;test_hbase:test_rowkey_split&quot;,LIMIT=&gt;10&#125;</span><br><span class="line">---------------------------</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">hdfs存储信息</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">drwxr-xr-xrootsupergroup0 BMar 11 20:3100 B.tabledesc</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">drwxr-xr-xrootsupergroup0 BMar 11 20:3100 B.tmp</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">drwxr-xr-xrootsupergroup0 BMar 11 20:3100 B28c38ce5ff401333122c00c05e521ae3</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">drwxr-xr-xrootsupergroup0 BMar 11 20:3100 B4493f765702cc8979678f14cbcff17ff</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">drwxr-xr-xrootsupergroup0 BMar 11 20:3100 B540c8c1f386356cab11f824e74d33fad</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">drwxr-xr-xrootsupergroup0 BMar 11 20:3100 B867157c4f6ab39ba52ac6b3b58e6cbf4</span></span><br><span class="line">---------------------------</span><br></pre></td></tr></table></figure><h2 id="2-”缩”的讲解-compact"><a href="#2-”缩”的讲解-compact" class="headerlink" title="2.”缩”的讲解(compact)"></a>2.”缩”的讲解(compact)</h2><h3 id="策略一：min-compact"><a href="#策略一：min-compact" class="headerlink" title="策略一：min_compact"></a>策略一：min_compact</h3><p><strong>具体讲解</strong>：2个小文件合并为一个大文件</p><h3 id="策略二：major-compact"><a href="#策略二：major-compact" class="headerlink" title="策略二：major_compact"></a>策略二：major_compact</h3><p><strong>具体讲解</strong>：所有小的文件合并为一个大文件</p><h3 id="必知点："><a href="#必知点：" class="headerlink" title="必知点："></a>必知点：</h3><p>**1.**由于HBase的数据会存储于HDFS中，因此大文件(合并后文件)也是有上限的，即：一个大文件最多为128M。</p><p><strong>2.<strong>合并操作：</strong>将StoreFile进行合并</strong>。</p><h1 id="可用性"><a href="#可用性" class="headerlink" title="可用性"></a>可用性</h1><h2 id="1-容灾性"><a href="#1-容灾性" class="headerlink" title="1.容灾性"></a>1.容灾性</h2><h3 id="HRegionServer容灾"><a href="#HRegionServer容灾" class="headerlink" title="HRegionServer容灾"></a>HRegionServer容灾</h3><p>由于<strong>HLog日志文件</strong>存在,实现了<strong>WAL机制（Write Ahead Log）</strong>，即：在写入具体磁盘上之前会先写到HLog日志中去。当HRegionServer死机，异常等情况出现时，HMaster会将HLog迁移到另一台服务器上，进行恢复。</p><p><strong>补充知识</strong></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">WAL机制=&gt;理论体系</span><br><span class="line">HLog=&gt;具体记录理论体系的数据载体</span><br></pre></td></tr></table></figure><h3 id="HMaster容灾"><a href="#HMaster容灾" class="headerlink" title="HMaster容灾"></a>HMaster容灾</h3><p>当ZooKeeper通过心跳察觉到HMaster出现问题时，会启动备用HMaster backup。因为ZooKeeper与HMaster和备用的HMaster backup之间都具有心跳。</p><h2 id="2-统一管理"><a href="#2-统一管理" class="headerlink" title="2.统一管理"></a>2.统一管理</h2><p>HMaster通过心跳统一管理HRegionServer。</p><p>ZooKeeper通过心跳统一管理HMaster及其备用HMaster backup。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 学习主线 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 大数据 </tag>
+            
+            <tag> 实时数仓 </tag>
+            
+            <tag> HBase </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Java集合——HashMap讲解</title>
+      <link href="/2024/03/05/HashMap%E8%AE%B2%E8%A7%A3/"/>
+      <url>/2024/03/05/HashMap%E8%AE%B2%E8%A7%A3/</url>
+      
+        <content type="html"><![CDATA[<h1 id="一、何为HashMap？"><a href="#一、何为HashMap？" class="headerlink" title="一、何为HashMap？"></a>一、何为HashMap？</h1><p>HashMap，又名Hash表或<strong>散列表</strong>。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 学习主线 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> 数据结构 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Git教程(从0到1)</title>
+      <link href="/2024/02/05/Git%E6%95%99%E7%A8%8B(%E4%BB%8E0%E5%88%B01)/"/>
+      <url>/2024/02/05/Git%E6%95%99%E7%A8%8B(%E4%BB%8E0%E5%88%B01)/</url>
+      
+        <content type="html"><![CDATA[<h1 id="1-Git仓库搭建"><a href="#1-Git仓库搭建" class="headerlink" title="1.Git仓库搭建"></a>1.Git仓库搭建</h1><h2 id="含义"><a href="#含义" class="headerlink" title="含义"></a>含义</h2><p>记录文件状态内容的地方，存储修改的历史记录</p><h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init本地文件夹转换为Git从仓库</span><br></pre></td></tr></table></figure><h1 id="2-Git-三大区域【顺序不可变】"><a href="#2-Git-三大区域【顺序不可变】" class="headerlink" title="2.Git 三大区域【顺序不可变】"></a>2.Git 三大区域【顺序不可变】</h1><h2 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">工作区：实际开发时操作的文件夹【创建.gitignore文件。忽略某些文件上传】</span><br><span class="line">|</span><br><span class="line">|命令：git add . ✔</span><br><span class="line">|查看暂存区文件：git ls-files✔</span><br><span class="line">|查看状态</span><br><span class="line">↓</span><br><span class="line">暂存区：暂存改动了的文件(.git/index)</span><br><span class="line">|</span><br><span class="line">|命令：git commit -m &quot;注释说明&quot;✔</span><br><span class="line">|</span><br><span class="line">↓</span><br><span class="line">版本库：提交并保存暂存区内容,产生一个版本快照(.git/objects)</span><br></pre></td></tr></table></figure><h2 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h2><p>报黄色提示，表明vue文件夹中需要删除旧的仓库文件【.git文件】</p><h2 id="额外操作"><a href="#额外操作" class="headerlink" title="额外操作"></a>额外操作</h2><h3 id="缓存区工作区"><a href="#缓存区工作区" class="headerlink" title="缓存区&lt;&#x3D;&gt;工作区"></a>缓存区&lt;&#x3D;&gt;工作区</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">回档：git restore 目标文件✔</span><br><span class="line">【从缓存区重新回到工作区中暂存时状态】</span><br><span class="line"></span><br><span class="line">从暂存区内移除文件：git rm --cached 目标文件✔</span><br></pre></td></tr></table></figure><h3 id="版本区-缓存区-工作区"><a href="#版本区-缓存区-工作区" class="headerlink" title="版本区&#x3D;&gt;缓存区&#x3D;&gt;工作区"></a>版本区&#x3D;&gt;缓存区&#x3D;&gt;工作区</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">查看版本区提交记录(版本号)：git log --oneline✔</span><br><span class="line">版本回退：git reset --hard 版本号 ✔</span><br><span class="line">【彻底删除缓存区和工作区保留部分】</span><br></pre></td></tr></table></figure><h1 id="3-删除文件"><a href="#3-删除文件" class="headerlink" title="3.删除文件"></a>3.删除文件</h1><h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>删除News.html文件，并产生一次版本记录</p><h2 id="操作步骤"><a href="#操作步骤" class="headerlink" title="操作步骤"></a>操作步骤</h2><pre><code>1.手动删除工作区文件2.暂存变动/手动删除暂存区文件造成变更3.提交保存，产生新的版本，就此删除文件完成</code></pre><h1 id="4-分支与合并"><a href="#4-分支与合并" class="headerlink" title="4.分支与合并"></a>4.分支与合并</h1><h2 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h2><p>在原有的基础上 修复bug&#x2F;添加新功能【不影响主分支的代码】</p><h2 id="操作步骤-1"><a href="#操作步骤-1" class="headerlink" title="操作步骤"></a>操作步骤</h2><h3 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">创建分支：git branch 分支名</span><br><span class="line">切换分支命令：git checkout 分支名</span><br><span class="line">查看分支：git branch</span><br></pre></td></tr></table></figure><h3 id="合并【主分支master下完成】"><a href="#合并【主分支master下完成】" class="headerlink" title="合并【主分支master下完成】"></a>合并【主分支master下完成】</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.合并分支：git merge 分支名</span><br><span class="line">2.删除合并后的分支：git branch -d 分支名</span><br></pre></td></tr></table></figure><h1 id="5-Git远程仓库–Gitee-【重点】"><a href="#5-Git远程仓库–Gitee-【重点】" class="headerlink" title="5.Git远程仓库–Gitee 【重点】"></a>5.Git远程仓库–Gitee 【重点】</h1><h2 id="5-1：本地-远程"><a href="#5-1：本地-远程" class="headerlink" title="5.1：本地 &#x3D;&gt; 远程"></a>5.1：本地 &#x3D;&gt; 远程</h2><h3 id="A：初次提交"><a href="#A：初次提交" class="headerlink" title="A：初次提交"></a>A：初次提交</h3><h4 id="A-1、推送"><a href="#A-1、推送" class="headerlink" title="A.1、推送"></a>A.1、推送</h4><pre><code>基本步骤：    1.新建仓库得到远程仓库 Git地址        2.本地 Git仓库 添加远程仓库原点地址【建立连接】        命令：git remote add 远程仓库别名[随便取] 远程仓库地址        案例：git remote add origin https://gitee.com/LemonWorld/git_study.git        3.查看是否建立成功        命令：git remote -v        4.本地 Git仓库 推送版本记录[版本库]到 远程仓库【推送】        命令：git push -u 远程仓库别名 本地和远程分支名[同名]        例如：git push -u origin master</code></pre><h4 id="A-2、强制覆盖-全部覆盖"><a href="#A-2、强制覆盖-全部覆盖" class="headerlink" title="A.2、强制覆盖(全部覆盖)"></a>A.2、强制覆盖(全部覆盖)</h4><p><strong>场景：</strong>远程仓库中已经有了文件，无法进行【推送】操作,从而进行<strong>强制覆盖远程仓库</strong>操作</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">基本步骤：</span><br><span class="line">1.新建仓库得到远程仓库 Git地址</span><br><span class="line"></span><br><span class="line">2.本地 Git仓库 添加远程仓库原点地址【建立连接】</span><br><span class="line">命令：git remote add 远程仓库别名[随便取] 远程仓库地址</span><br><span class="line">案例：git remote add origin https://gitee.com/LemonWorld/git_study.git</span><br><span class="line"></span><br><span class="line">3.查看远程仓库(查看是否建立成功)</span><br><span class="line">命令：git remote -v</span><br><span class="line"></span><br><span class="line">4.强行覆盖远程仓库全部内容</span><br><span class="line">命令：git push -f 远程仓库别名 本地和远程分支名[同名]</span><br><span class="line">例如：git push -f origin master</span><br></pre></td></tr></table></figure><h3 id="B：后续提交"><a href="#B：后续提交" class="headerlink" title="B：后续提交"></a>B：后续提交</h3><h4 id="B-1、代码操作"><a href="#B-1、代码操作" class="headerlink" title="B.1、代码操作"></a>B.1、代码操作</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">1：同步远程仓库代码</span><br><span class="line">命令：git pull 远程仓库别名 分支名</span><br><span class="line">案例：git pull origin master</span><br><span class="line"></span><br><span class="line">2：查看当前状态：git status</span><br><span class="line">使用 git status  来查看当前状态，红色的字体显示的就是你修改的文件</span><br><span class="line"></span><br><span class="line">3：提交代码到本地git缓存区</span><br><span class="line">情形一：如果你git status 查看了当前状态发现都是你修改过的文件，都要提交，</span><br><span class="line">   那么你可以直接使用 git add .  就可以把你的内容全部添加到本地git缓存区中</span><br><span class="line">情形二：如果你git status 查看了当前状态发现有部分文件你不想提交，</span><br><span class="line">   那么就使用git add xxx(上图中的红色文字的文件链接)  </span><br><span class="line">   就可以提交部分文件到本地git缓存区。</span><br><span class="line"></span><br><span class="line">4：推送代码到本地git库，推送修改到本地git库中</span><br><span class="line">命令：git commit -m &quot;注释说明&quot;</span><br><span class="line"></span><br><span class="line">5：提交本地代码到远程仓库</span><br><span class="line">命令：git push -u 远程仓库别名 本地和远程分支名[同名]</span><br><span class="line">例如：git push -u origin master</span><br><span class="line"></span><br></pre></td></tr></table></figure><h4 id="B-2、IDEA中操作：提交代码-修改代码并提交"><a href="#B-2、IDEA中操作：提交代码-修改代码并提交" class="headerlink" title="B.2、IDEA中操作：提交代码(修改代码并提交)"></a>B.2、IDEA中操作：提交代码(修改代码并提交)</h4><p><strong>1、</strong>IDEA的右上方，点击Git标识后面绿色“✔”</p><p><img src="https://gitee.com/LemonWorld/picture/raw/master/img/idea%E6%8F%90%E4%BA%A41.png" alt="idea提交1"></p><p><strong>2、</strong>填写注释【可选】，进行提交</p><p><img src="https://gitee.com/LemonWorld/picture/raw/master/img/idea%E6%8F%90%E4%BA%A42.png" alt="idea提交2"></p><p><strong>3、</strong>若选择Commit选项，则需要进行此处操作进入步骤四</p><p><img src="https://gitee.com/LemonWorld/picture/raw/master/img/idea%E6%8F%90%E4%BA%A433.png" alt="idea提交3"></p><p><strong>4、</strong>点击Push，即可提交成功</p><p><img src="https://gitee.com/LemonWorld/picture/raw/master/img/idea%E6%8F%90%E4%BA%A43.png" alt="idea提交4"></p><h2 id="5-2：远程-本地"><a href="#5-2：远程-本地" class="headerlink" title="5.2：远程 &#x3D;&gt; 本地"></a>5.2：远程 &#x3D;&gt; 本地</h2><h3 id="克隆-从无到有"><a href="#克隆-从无到有" class="headerlink" title="克隆(从无到有)"></a>克隆(从无到有)</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">命令：git clone 远程仓库地址</span><br><span class="line">案例：git clone https://gitee.com/LemonWorld/git_study.git</span><br></pre></td></tr></table></figure><h3 id="拉取-获取最新内容"><a href="#拉取-获取最新内容" class="headerlink" title="拉取(获取最新内容)"></a>拉取(获取最新内容)</h3><h4 id="代码操作"><a href="#代码操作" class="headerlink" title="代码操作"></a>代码操作</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">命令：git pull 远程仓库别名 分支名</span><br><span class="line">案例：git pull origin master</span><br></pre></td></tr></table></figure><h4 id="IDEA中操作"><a href="#IDEA中操作" class="headerlink" title="IDEA中操作"></a>IDEA中操作</h4><p><img src="https://gitee.com/LemonWorld/picture/raw/master/img/idea%E6%8B%89%E5%8F%96.png" alt="idea中进行拉取操作"></p><h4 id="基本原则：先更新-拉取-，后提交"><a href="#基本原则：先更新-拉取-，后提交" class="headerlink" title="基本原则：先更新(拉取)，后提交"></a>基本原则：先更新(拉取)，后提交</h4>]]></content>
+      
+      
+      <categories>
+          
+          <category> 学习主线 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Git </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>大数据之Hadoop组成</title>
+      <link href="/2024/01/09/hadoop%E7%9A%84%E7%BB%84%E6%88%90/"/>
+      <url>/2024/01/09/hadoop%E7%9A%84%E7%BB%84%E6%88%90/</url>
+      
+        <content type="html"><![CDATA[<h1 id="1-Hadoop组成"><a href="#1-Hadoop组成" class="headerlink" title="1.Hadoop组成"></a>1.Hadoop组成</h1><p>Hadoop主要由<strong>HDFS(分布式文件系统)</strong> , <strong>MapReduce(分布式计算框架)</strong> , <strong>YARN(资源管理器)</strong> 这三个核心组件构成</p><h2 id="1-1-HDFS概述"><a href="#1-1-HDFS概述" class="headerlink" title="1.1 HDFS概述"></a>1.1 HDFS概述</h2><p><strong>HDFS</strong>，全名为Hadoop Distributed File System，是一个hadoop分布式文件系统，用于文件存储。</p><p>HDFS含有三个服务，分别为NameNode，DataNode，Secondary NameNode</p><p>**1.NameNode (NN)**：元数据节点</p><p>&ensp;&ensp;&ensp;&ensp;• NameNode 是HDFS的“大脑”，存储文件的元数据，如<strong>文件名</strong>，<strong>位置</strong>，<strong>大小</strong>，<strong>文件目录结构</strong>，<strong>文件属性</strong>（生成时间、副本数、文件权限），以及每个文件的<strong>块列表</strong>和<strong>块所在的DataNode</strong>等。</p><p>&ensp;&ensp;&ensp;&ensp;• 一个HDFS集群只有一个Active的NameNode</p><p> **2.DataNode (DN)**：数据节点</p><p>&ensp;&ensp;&ensp;&ensp; • 数据存储节点，保存和检索Block</p><p>&ensp; &ensp;&ensp;&ensp;• 一个集群可以有多个数据节点</p><p>**3.Secondary NameNode (SNN)**：从元数据节点</p><p>&ensp;&ensp;&ensp;&ensp;• 定期合并NameNode的edit logs（编辑日志）到fsimage（镜像）文件中，以防止编辑日志文件过大影响性能</p><p>&ensp;&ensp;&ensp;&ensp;• 辅助NameNode将内存中元数据信息持久化</p><p>&ensp;&ensp;&ensp;&ensp;• 协助优化性能（即是SNN失效，整个系统仍然可用）</p><p><img src="https://gitee.com/LemonWorld/picture/raw/master/img/HDFS%E6%9E%B6%E6%9E%84.png" alt="HDFS架构"></p><h2 id="1-2-MapReduce概述"><a href="#1-2-MapReduce概述" class="headerlink" title="1.2 MapReduce概述"></a>1.2 MapReduce概述</h2><p><strong>MapReduce</strong>，是分布式计算框架。</p><p><strong>设计思路：</strong>分而治之</p><p><strong>组成：</strong>每一个job包含 Map 与 Reduce 两个部分，其中shuffle是包含在map与reduce之间的中间过程。</p><h2 id="1-3-YARN概述"><a href="#1-3-YARN概述" class="headerlink" title="1.3 YARN概述"></a>1.3 YARN概述</h2><p><strong>YARN</strong>，全名为Yet Another Resource Negotiator，是Hadoop的集群资源管理器。</p><p>**核心思想:**将资源管理和任务的监控和调度分离.</p><p><strong>由来：</strong>由于Hadoop1.x版本中的问题在于资源问题，主要依靠MapReduce来完成，导致JobTracker压力过大。因此，在Hadoop2.x版本中添加了YARN，用于负责集群资源管理。</p><p><img src="https://gitee.com/LemonWorld/picture/raw/master/img/YARN%E6%A6%82%E6%8B%AC.png"></p><h1 id="2-Hadoop整体认知"><a href="#2-Hadoop整体认知" class="headerlink" title="2.Hadoop整体认知"></a>2.Hadoop整体认知</h1><p>1.分布式：<br>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;存储：HDFS【hadoop分布式文件系统】（Namenode + Datanode）<br>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;计算：MapReduce ： map + shuffle + reduce &#x3D;&gt; 慢，但稳定</p><p>2.面向于数据（上传|下载文件,创建目录操作）：</p><p>&ensp;&ensp;&ensp;管理数据</p><p>&ensp;&ensp;&ensp;NameNode&ensp;&ensp;&ensp;*2&ensp;&ensp;(Active | Standby *N)【一般为2个左右]&ensp;&ensp;&ensp;&#x3D;&gt; 老大</p><p>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;DataNode &ensp;&ensp;&ensp;*N【可以有多个】&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&#x3D;&gt;小弟</p><p>3.面向于服务：</p><p>&ensp;&ensp;&ensp;管理资源和任务</p><p>&ensp;&ensp;&ensp;YARN：</p><p>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;ResourceManager：管资源（CPU,MEM,DISK…）&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&#x3D;&gt;老大</p><p>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;applicationManager：管任务（计算）&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&#x3D;&gt;老大</p><p>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;nodemanager&ensp;&ensp;&ensp;*N【可以有多个】&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&#x3D;&gt;小弟</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 学习主线 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 大数据 </tag>
+            
+            <tag> hadoop </tag>
+            
+            <tag> 离线数仓 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>大数据之初识Hadoop</title>
+      <link href="/2024/01/06/hadoop%E5%88%9D%E6%AD%A5%E4%BA%86%E8%A7%A3/"/>
+      <url>/2024/01/06/hadoop%E5%88%9D%E6%AD%A5%E4%BA%86%E8%A7%A3/</url>
+      
+        <content type="html"><![CDATA[<h1 id="何为Hadoop"><a href="#何为Hadoop" class="headerlink" title="何为Hadoop"></a>何为Hadoop</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Hadoop是一个开源的【分布式系统架构】</span><br><span class="line">解决海量数据【存储】和海量数据【计算】的问题</span><br></pre></td></tr></table></figure><h1 id="Hadoop-vs-RDBMS"><a href="#Hadoop-vs-RDBMS" class="headerlink" title="Hadoop vs RDBMS"></a>Hadoop vs RDBMS</h1><p><img src="https://gitee.com/LemonWorld/picture/raw/master/img/hadoop%E4%B8%8ERDBMS%E5%AF%B9%E6%AF%94.png"></p><h1 id="Hadoop特征"><a href="#Hadoop特征" class="headerlink" title="Hadoop特征"></a>Hadoop特征</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">• 高扩展性: 在集群间分配任务数据，可方便的扩展数以千计的节点</span><br><span class="line"></span><br><span class="line">• 高可靠性: Hadoop底层维护多个数据副本</span><br><span class="line"></span><br><span class="line">• 高容错性: Hadoop框架能够自动将失败的任务重新分配</span><br><span class="line"></span><br><span class="line">• 低成本: Hadoop架构允许部署在廉价的机器上</span><br><span class="line"></span><br><span class="line">• 灵活，可存储任意类型数据</span><br><span class="line"></span><br><span class="line">• 开源，社区活跃</span><br></pre></td></tr></table></figure><h1 id="Hadoop核心组件-Hadoop架构"><a href="#Hadoop核心组件-Hadoop架构" class="headerlink" title="Hadoop核心组件(Hadoop架构)"></a>Hadoop核心组件(Hadoop架构)</h1><pre><code>Common：支持所有其他模块的公共工具程序HDFS:分布式文件系统，解决分布式存储MapReduce：分布式计算框架YARN：分布式资源管理系统,在Hadoop 2.x中引入</code></pre><p><img src="https://gitee.com/LemonWorld/picture/raw/master/img/hadoop%E7%BB%84%E6%88%90.png"></p><h1 id="Hadoop生态圈"><a href="#Hadoop生态圈" class="headerlink" title="Hadoop生态圈"></a>Hadoop生态圈</h1><p><img src="https://gitee.com/LemonWorld/picture/raw/master/img/hadoop%E7%94%9F%E6%80%81%E5%9C%88.png"></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">存储: HDFS，分布式文件系统，用于存储大规模数据</span><br><span class="line">查询：</span><br><span class="line">Hive: Hive是Hadoop生态系统的数据仓库工具，它提供了类似SQL的查询语言，允许用户在Hadoop中执行复杂查询。</span><br><span class="line">Pig: Pig是另一个用于数据分析的工具，它使用一种名为Pig Latin的脚本语言来执行数据流操作。</span><br><span class="line">...</span><br><span class="line">计算: MapReduce</span><br><span class="line">监控: Ambari</span><br><span class="line">协调: ZooKeeper</span><br><span class="line">调度: YARN</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> 学习主线 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 大数据 </tag>
+            
+            <tag> hadoop </tag>
+            
+            <tag> 离线数仓 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>图床搭建（gitee+PicGo）</title>
       <link href="/2023/12/29/gitee+%E5%9B%BE%E5%BA%8A/"/>
       <url>/2023/12/29/gitee+%E5%9B%BE%E5%BA%8A/</url>
@@ -32,6 +171,28 @@
     
     
     <entry>
+      <title>关于我</title>
+      <link href="/about/index.html"/>
+      <url>/about/index.html</url>
+      
+        <content type="html"><![CDATA[<p>哪个英文字母最酷？ <span class="hide-inline"><button type="button" class="hide-button" style="background-color: #FF7242;color: #fff">查看答案  </button><span class="hide-content">因为西装裤(C装酷)</span></span></p>]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title></title>
+      <link href="/js/runtime.js"/>
+      <url>/js/runtime.js</url>
+      
+        <content type="html"><![CDATA[var now=new Date;function createtime(){now.setTime(now.getTime()+1e3);var e=new Date("08/01/2022 00:00:00"),t=Math.trunc(234e8+(now-e)/1e3*17),a=(t/1496e5).toFixed(6),o=new Date("08/09/2022 00:00:00"),n=(now-o)/1e3/60/60/24,r=Math.floor(n),i=(now-o)/1e3/60/60-24*r,s=Math.floor(i);1==String(s).length&&(s="0"+s);var d=(now-o)/1e3/60-1440*r-60*s,l=Math.floor(d);1==String(l).length&&(l="0"+l);var g=(now-o)/1e3-86400*r-3600*s-60*l,b=Math.round(g);1==String(b).length&&(b="0"+b);let c="";c=s<18&&s>=9?`<img class='boardsign' src='https://sourcebucket.s3.ladydaily.com/badge/F小屋-科研摸鱼中.svg' title='什么时候能够实现财富自由呀~'><br> <div style="font-size:13px;font-weight:bold">本站居然运行了 ${r} 天 ${s} 小时 ${l} 分 ${b} 秒 <i id="heartbeat" class='fas fa-heartbeat'></i> <br> 旅行者 1 号当前距离地球 ${t} 千米，约为 ${a} 个天文单位 🚀</div>`:`<img class='boardsign' src='https://sourcebucket.s3.ladydaily.com/badge/F小屋-下班休息啦.svg' title='下班了就该开开心心地玩耍~'><br> <div style="font-size:13px;font-weight:bold">本站居然运行了 ${r} 天 ${s} 小时 ${l} 分 ${b} 秒 <i id="heartbeat" class='fas fa-heartbeat'></i> <br> 旅行者 1 号当前距离地球 ${t} 千米，约为 ${a} 个天文单位 🚀</div>`,document.getElementById("workboard")&&(document.getElementById("workboard").innerHTML=c)}setInterval((()=>{createtime()}),1e3);]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>目录</title>
       <link href="/categories/index.html"/>
       <url>/categories/index.html</url>
@@ -54,22 +215,11 @@
     
     
     <entry>
-      <title></title>
-      <link href="/js/runtime.js"/>
-      <url>/js/runtime.js</url>
+      <title>标签</title>
+      <link href="/tags/index.html"/>
+      <url>/tags/index.html</url>
       
-        <content type="html"><![CDATA[var now=new Date;function createtime(){now.setTime(now.getTime()+1e3);var e=new Date("08/01/2022 00:00:00"),t=Math.trunc(234e8+(now-e)/1e3*17),a=(t/1496e5).toFixed(6),o=new Date("08/09/2022 00:00:00"),n=(now-o)/1e3/60/60/24,r=Math.floor(n),i=(now-o)/1e3/60/60-24*r,s=Math.floor(i);1==String(s).length&&(s="0"+s);var d=(now-o)/1e3/60-1440*r-60*s,l=Math.floor(d);1==String(l).length&&(l="0"+l);var g=(now-o)/1e3-86400*r-3600*s-60*l,b=Math.round(g);1==String(b).length&&(b="0"+b);let c="";c=s<18&&s>=9?`<img class='boardsign' src='https://sourcebucket.s3.ladydaily.com/badge/F小屋-科研摸鱼中.svg' title='什么时候能够实现财富自由呀~'><br> <div style="font-size:13px;font-weight:bold">本站居然运行了 ${r} 天 ${s} 小时 ${l} 分 ${b} 秒 <i id="heartbeat" class='fas fa-heartbeat'></i> <br> 旅行者 1 号当前距离地球 ${t} 千米，约为 ${a} 个天文单位 🚀</div>`:`<img class='boardsign' src='https://sourcebucket.s3.ladydaily.com/badge/F小屋-下班休息啦.svg' title='下班了就该开开心心地玩耍~'><br> <div style="font-size:13px;font-weight:bold">本站居然运行了 ${r} 天 ${s} 小时 ${l} 分 ${b} 秒 <i id="heartbeat" class='fas fa-heartbeat'></i> <br> 旅行者 1 号当前距离地球 ${t} 千米，约为 ${a} 个天文单位 🚀</div>`,document.getElementById("workboard")&&(document.getElementById("workboard").innerHTML=c)}setInterval((()=>{createtime()}),1e3);]]></content>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>关于我</title>
-      <link href="/about/index.html"/>
-      <url>/about/index.html</url>
-      
-        <content type="html"><![CDATA[<p>哪个英文字母最酷？ <span class="hide-inline"><button type="button" class="hide-button" style="background-color: #FF7242;color: #fff">查看答案  </button><span class="hide-content">因为西装裤(C装酷)</span></span></p>]]></content>
+        <content type="html"><![CDATA[]]></content>
       
     </entry>
     
@@ -79,17 +229,6 @@
       <title>相关链接</title>
       <link href="/link/index.html"/>
       <url>/link/index.html</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>标签</title>
-      <link href="/tags/index.html"/>
-      <url>/tags/index.html</url>
       
         <content type="html"><![CDATA[]]></content>
       
