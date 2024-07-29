@@ -1,0 +1,448 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>VMware虚拟机安装Linux(CentOS7) | Frimiku` Blog</title><meta name="author" content="Frimiku"><meta name="copyright" content="Frimiku"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="今日，将为个位读者讲解一下虚拟机Linux安装步骤！ 一：虚拟机的创建  此处，我们先将Linux装好后再进行系统的配置  版本的选项，根据自己情况自行安排。此处，我装的是  此处进行命名操作，存储位置建议选个磁盘大点的盘，建议不要选择默认存储的c盘  处理器配置：选【处理器数量】和【内核数量】建议根据自身处理器情况来：一般处理器数量为一半，内核数量固定为2即可。但保险起见，这里我先选个4，2。若">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VMware虚拟机安装Linux(CentOS7)">
+<meta property="og:url" content="https://frimiku.github.io/2024/03/08/VMware%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%89%E8%A3%85Linux(CentOS7)/index.html">
+<meta property="og:site_name" content="Frimiku&#96; Blog">
+<meta property="og:description" content="今日，将为个位读者讲解一下虚拟机Linux安装步骤！ 一：虚拟机的创建  此处，我们先将Linux装好后再进行系统的配置  版本的选项，根据自己情况自行安排。此处，我装的是  此处进行命名操作，存储位置建议选个磁盘大点的盘，建议不要选择默认存储的c盘  处理器配置：选【处理器数量】和【内核数量】建议根据自身处理器情况来：一般处理器数量为一半，内核数量固定为2即可。但保险起见，这里我先选个4，2。若">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/LemonWorld/picture/raw/master/img/%E5%A4%9C%E6%99%9A%E8%8A%B1%E7%81%AB.png">
+<meta property="article:published_time" content="2024-03-07T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-06-14T07:43:25.168Z">
+<meta property="article:author" content="Frimiku">
+<meta property="article:tag" content="虚拟机VMware">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/LemonWorld/picture/raw/master/img/%E5%A4%9C%E6%99%9A%E8%8A%B1%E7%81%AB.png"><link rel="shortcut icon" href="/./others/imgs/%E5%8F%8C%E5%8F%B6%E5%AD%90.png"><link rel="canonical" href="https://frimiku.github.io/2024/03/08/VMware%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%89%E8%A3%85Linux(CentOS7)/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'VMware虚拟机安装Linux(CentOS7)',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-06-14 15:43:25'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-categories-card@1.0.0/lib/categorybar.css"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/./others/imgs/sanjiu.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">58</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">24</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 目录</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 相关链接</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 更多</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-link"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-heart"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://gitee.com/LemonWorld/picture/raw/master/img/%E5%A4%9C%E6%99%9A%E8%8A%B1%E7%81%AB.png')"><nav id="nav"><span id="blog-info"><a href="/" title="Frimiku` Blog"><span class="site-name">Frimiku` Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 目录</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 相关链接</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 更多</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-link"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-heart"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">VMware虚拟机安装Linux(CentOS7)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-03-07T16:00:00.000Z" title="发表于 2024-03-08 00:00:00">2024-03-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-06-14T07:43:25.168Z" title="更新于 2024-06-14 15:43:25">2024-06-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0%E4%B8%BB%E7%BA%BF/">学习主线</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span><span class="post-meta-separator">|</span><span class="leancloud_visitors" id="/2024/03/08/VMware%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%89%E8%A3%85Linux(CentOS7)/" data-flag-title="VMware虚拟机安装Linux(CentOS7)"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span class="leancloud-visitors-count"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>今日，将为个位读者讲解一下虚拟机Linux安装步骤！</p>
+<h1 id="一：虚拟机的创建"><a href="#一：虚拟机的创建" class="headerlink" title="一：虚拟机的创建"></a>一：虚拟机的创建</h1><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E8%99%9A%E6%8B%9F%E6%9C%BA1.png" alt="步骤一"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E8%99%9A%E6%8B%9F%E6%9C%BA2.png" alt="步骤二"></p>
+<p>此处，我们先将Linux装好后再进行系统的配置</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E8%99%9A%E6%8B%9F%E6%9C%BA3.png" alt="步骤三"></p>
+<p>版本的选项，根据自己情况自行安排。此处，我装的是</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E8%99%9A%E6%8B%9F%E6%9C%BA4.png" alt="步骤四"></p>
+<p>此处进行命名操作，存储位置建议选个磁盘大点的盘，建议<strong>不要</strong>选择默认存储的c盘</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E8%99%9A%E6%8B%9F%E6%9C%BA5.png" alt="步骤五"></p>
+<p>处理器配置：选【<strong>处理器数量</strong>】和【<strong>内核数量</strong>】建议根据自身处理器情况来：<strong>一般处理器数量为一半，内核数量固定为2即可</strong>。但保险起见，这里我先选个4，2。若后期需要，可以进行修改。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E5%A4%84%E7%90%86%E5%99%A8%E9%85%8D%E7%BD%AE.png" alt="步骤六"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E5%A4%84%E7%90%86%E5%99%A8%E9%85%8D%E7%BD%AE%E6%9F%A5%E7%9C%8B.png" alt="步骤六"></p>
+<p>内存配置：<strong>一般选为内存的一半</strong>。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E5%86%85%E5%AD%98%E9%85%8D%E7%BD%AE.png" alt="步骤七"></p>
+<p>网络类型：<strong>选择“NAT”</strong>。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E7%BD%91%E7%BB%9C%E7%B1%BB%E5%9E%8B.png" alt="步骤八"></p>
+<p>I&#x2F;O控制器类型：<strong>选择“LSI Logic(L) (推荐)”</strong>。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/IO%E6%8E%A7%E5%88%B6%E5%99%A8%E7%B1%BB%E5%9E%8B.png" alt="步骤九"></p>
+<p>磁盘类型：<strong>选择“SCSI(S) (推荐)”</strong>。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E7%A3%81%E7%9B%98%E7%B1%BB%E5%9E%8B.png" alt="步骤十"></p>
+<p>磁盘的选择：<strong>选择“创建新虚拟机”</strong>。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E7%A3%81%E7%9B%98%E7%9A%84%E9%80%89%E6%8B%A9.png" alt="步骤十一"></p>
+<p>磁盘大小：<strong>此处选择20G，对于我个人而言够用</strong>。切记，选择<strong>“拆分成多个文件”选项</strong>。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E7%A3%81%E7%9B%98%E5%A4%A7%E5%B0%8F.png" alt="步骤十二"></p>
+<p>指定磁盘文件：<strong>默认选项即可</strong>。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E6%8C%87%E5%AE%9A%E7%A3%81%E7%9B%98%E6%96%87%E4%BB%B6.png" alt="步骤十三"></p>
+<p>首选：先选择“<strong>自定义硬件</strong>”。</p>
+<p>其次：<strong>移除 “声卡” 与 “打印机”</strong>。</p>
+<p>然后：选中<strong>“新CD&#x2F;DVD(IDE)”</strong> -&gt; 选择<strong>“使用ISO映像文件”</strong> 。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E8%87%AA%E5%AE%9A%E4%B9%89%E7%A1%AC%E4%BB%B6.png" alt="步骤十四"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E8%87%AA%E5%AE%9A%E4%B9%89%E7%A1%AC%E4%BB%B6%E6%9C%80%E7%BB%88%E5%91%88%E7%8E%B0.png" alt="步骤十四"></p>
+<p>ISO映射文件路径</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E8%87%AA%E5%AE%9A%E4%B9%89%E7%A1%AC%E4%BB%B61.png" alt="步骤十四"></p>
+<p>最后：<strong>点击“关闭”，返回页面后选择“完成”即可</strong>。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E8%87%AA%E5%AE%9A%E4%B9%89%E7%A1%AC%E4%BB%B62.png" alt="步骤十四"></p>
+<h1 id="二：安装操作系统"><a href="#二：安装操作系统" class="headerlink" title="二：安装操作系统"></a>二：安装操作系统</h1><h3 id="1）开启虚拟机"><a href="#1）开启虚拟机" class="headerlink" title="1）开启虚拟机"></a>1）开启虚拟机</h3><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E5%90%AF%E5%8A%A8%E8%99%9A%E6%8B%9F%E6%9C%BA.png"></p>
+<h3 id="2）使用键盘上下键选择Install-CentOS-7"><a href="#2）使用键盘上下键选择Install-CentOS-7" class="headerlink" title="2）使用键盘上下键选择Install CentOS 7"></a>2）使用键盘上下键选择Install CentOS 7</h3><p><strong>选择“install CentOS 7”</strong>。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/installCentOS.png"></p>
+<h3 id="3）-会自动跳转下面的界面"><a href="#3）-会自动跳转下面的界面" class="headerlink" title="3） 会自动跳转下面的界面"></a>3） 会自动跳转下面的界面</h3><p>语言选择：<strong>推荐使用“English（US）”</strong>。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9.png"></p>
+<h3 id="4）-定制化内容"><a href="#4）-定制化内容" class="headerlink" title="4） 定制化内容"></a>4） 定制化内容</h3><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%9A%E5%88%B6%E5%8C%96%E5%86%85%E5%AE%B9.png"></p>
+<h4 id="1、时间和日期，调整时差"><a href="#1、时间和日期，调整时差" class="headerlink" title="1、时间和日期，调整时差"></a>1、时间和日期，调整时差</h4><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%BA%8B%E4%BB%B6%E4%B8%8E%E6%97%A5%E6%9C%9F.png"></p>
+<h4 id="2、软件选择"><a href="#2、软件选择" class="headerlink" title="2、软件选择"></a>2、软件选择</h4><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%9C%80%E5%B0%8F%E5%8C%96%E5%AE%89%E8%A3%85.png"></p>
+<h4 id="3、安装位置"><a href="#3、安装位置" class="headerlink" title="3、安装位置"></a>3、安装位置</h4><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%88%86%E5%8C%BA.png"></p>
+<h4 id="5、修改主机名"><a href="#5、修改主机名" class="headerlink" title="5、修改主机名"></a>5、修改主机名</h4><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%BF%AE%E6%94%B9%E4%B8%BB%E6%9C%BA%E5%90%8D.png"></p>
+<h4 id="6、开始安装"><a href="#6、开始安装" class="headerlink" title="6、开始安装"></a>6、开始安装</h4><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%BC%80%E5%A7%8B%E5%AE%89%E8%A3%85.png"></p>
+<h3 id="5）-root与user创建"><a href="#5）-root与user创建" class="headerlink" title="5） root与user创建"></a>5） root与user创建</h3><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E8%99%9A%E6%8B%9F%E6%9C%BAroot%E4%B8%8Euser%E5%88%9B%E5%BB%BA.png"></p>
+<h4 id="root创建"><a href="#root创建" class="headerlink" title="root创建"></a>root创建</h4><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E8%99%9A%E6%8B%9F%E6%9C%BAroot%E5%88%9B%E5%BB%BA.png"></p>
+<h4 id="user创建"><a href="#user创建" class="headerlink" title="user创建"></a>user创建</h4><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E8%99%9A%E6%8B%9F%E6%9C%BAuser%E5%88%9B%E5%BB%BA.png"></p>
+<h3 id="6）-完成配置并重启后即可使用"><a href="#6）-完成配置并重启后即可使用" class="headerlink" title="6） 完成配置并重启后即可使用"></a>6） 完成配置并重启后即可使用</h3><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%8C%E6%88%90%E9%85%8D%E7%BD%AE.png"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%87%8D%E5%90%AF.png"></p>
+<h1 id="三：网络设置"><a href="#三：网络设置" class="headerlink" title="三：网络设置"></a>三：网络设置</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">1、查看，关闭，并禁用防火墙</span></span><br><span class="line">systemctl status firewalld</span><br><span class="line">systemctl stop firewalld</span><br><span class="line">systemctl disable firewalld</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">2、查看，关闭，并禁用网络管理服务</span></span><br><span class="line">systemctl status NetworkManager</span><br><span class="line">systemctl stop NetworkManager</span><br><span class="line">systemctl disable NetworkManager</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">3、修改网关、IP地址等信息</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">切换到network-scripts目录下</span></span><br><span class="line">cd /etc/sysconfig/network-scripts/</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">打开ifcfg-ens33文件进行配置</span></span><br><span class="line">vi ifcfg-ens33</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%BF%AE%E6%94%B9ip.png"></p>
+<p><strong>网络IP，子网IP，子网掩码查看</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E8%AF%91%E5%99%A8.png"></p>
+<p><strong>具体配置如下</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">样式展示</span></span><br><span class="line">----------------------------</span><br><span class="line">BOOTPROTO=&quot;static&quot;</span><br><span class="line">.....</span><br><span class="line">IPADDR=192.168.244.128 #子网IP【最后一位数自定义】</span><br><span class="line">NETMASK=255.255.255.0 #子网掩码</span><br><span class="line">GATEWAY=192.168.244.2 #网络IP</span><br><span class="line">DNS1=8.8.8.8</span><br><span class="line">DNS2=114.114.114.114</span><br><span class="line">----------------------------</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%85%B7%E4%BD%93IP%E7%AD%89%E9%85%8D%E7%BD%AE2.0.png"></p>
+<p><strong>最后，重启网络服务，尝试通网络操作</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">重启网络服务</span></span><br><span class="line">systemctl restart network</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">测试网络状况</span></span><br><span class="line"><span class="meta prompt_">	# </span><span class="language-bash">在虚拟机内ping外网</span></span><br><span class="line">	ping www.baidu.com</span><br><span class="line"><span class="meta prompt_">	# </span><span class="language-bash">在windows DOS窗口下</span></span><br><span class="line">	ping 192.168.244.128</span><br></pre></td></tr></table></figure>
+
+<p>在虚拟机内ping外网</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E9%83%A8ping%E7%BD%91.png"></p>
+<p>在windows DOS窗口下</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%A4%96%E7%BD%91ping%E7%BD%91.png"></p>
+<h1 id="四：虚拟机的优化"><a href="#四：虚拟机的优化" class="headerlink" title="四：虚拟机的优化"></a>四：虚拟机的优化</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">1、在系统启动时，SELinux 将会被禁用，不再对系统进行强制访问控制</span></span><br><span class="line">vi /etc/selinux/config</span><br><span class="line">------------------------------</span><br><span class="line">SELINUX=disabled</span><br><span class="line">------------------------------</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">2、 SSH 服务在用户登录时不要进行 DNS 反向解析，以加快用户登录速度</span></span><br><span class="line">vi /etc/ssh/sshd_config</span><br><span class="line">------------------------------</span><br><span class="line">UseDNS no</span><br><span class="line">------------------------------</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">重启ssh服务</span></span><br><span class="line">systemctl restart sshd</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="五：连接moba"><a href="#五：连接moba" class="headerlink" title="五：连接moba"></a>五：连接moba</h1><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%BF%9E%E6%8E%A5moba.png"></p>
+<h1 id="六：本地镜像挂载"><a href="#六：本地镜像挂载" class="headerlink" title="六：本地镜像挂载"></a>六：本地镜像挂载</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">本地镜像挂载</span></span><br><span class="line"><span class="meta prompt_">	# </span><span class="language-bash">1、vmware 虚拟机设置 勾选<span class="built_in">cd</span>/dvd“已连接”</span></span><br><span class="line"><span class="meta prompt_">	# </span><span class="language-bash">2、编辑本地仓库配置文件之前，先备份原有的配置文件</span></span><br><span class="line">		cd /etc/yum.repos.d/</span><br><span class="line">		mkdir bak</span><br><span class="line">		mv *.repo bak</span><br><span class="line"><span class="meta prompt_">	# </span><span class="language-bash">3、挂载光盘</span> </span><br><span class="line"><span class="meta prompt_">		#</span><span class="language-bash">第一部分：根目录下操作</span></span><br><span class="line">		mkdir /mnt/centos</span><br><span class="line">		mount /dev/sr0 /mnt/centos</span><br><span class="line">		------------------------------------------------------</span><br><span class="line">		返回 mount: /dev/sr0 is write-protected, mounting read-only 表示成功</span><br><span class="line">		------------------------------------------------------</span><br><span class="line"><span class="meta prompt_">		#</span><span class="language-bash">第二部分：编辑本地仓库配置文件 在 /etc/yum.repos.d/ 目录下进行</span></span><br><span class="line">        vi base.repo</span><br><span class="line">        ----------------------</span><br><span class="line">        [local]</span><br><span class="line">        name=local</span><br><span class="line">        baseurl=file:///mnt/centos</span><br><span class="line">        gpgcheck=0</span><br><span class="line">        enabled=1</span><br><span class="line">        ----------------------</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="七：远程镜像源设置"><a href="#七：远程镜像源设置" class="headerlink" title="七：远程镜像源设置"></a>七：远程镜像源设置</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">远程镜像源设置</span></span><br><span class="line"><span class="meta prompt_">	# </span><span class="language-bash">安装 wget 命令</span></span><br><span class="line">		yum -y install wget</span><br><span class="line"><span class="meta prompt_">	# </span><span class="language-bash">拉取阿里远程镜像服务地址</span></span><br><span class="line">		wget -O CentOs-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span><br><span class="line"><span class="meta prompt_">	# </span><span class="language-bash">更新yum</span></span><br><span class="line">		yum -y install net-tools</span><br><span class="line">		yum clean all</span><br><span class="line">        yum makecache</span><br><span class="line">        yum update -y</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="八：安装yum"><a href="#八：安装yum" class="headerlink" title="八：安装yum"></a>八：安装yum</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1、安装yum</span><br><span class="line">	命令：yum -y install vim-enhanced.x86_64</span><br><span class="line">2、配置：</span><br><span class="line">	vim /etc/vimrc</span><br><span class="line">		在最后行书写以下内容：</span><br><span class="line">			:set tabstop=4</span><br><span class="line">			:set softtabstop=4</span><br><span class="line">			:set shiftwidth=4</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="九：额外优化配置（可选）"><a href="#九：额外优化配置（可选）" class="headerlink" title="九：额外优化配置（可选）"></a>九：额外优化配置（可选）</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">优化存储策略</span></span><br><span class="line">    vi /etc/sysctl.conf</span><br><span class="line">    ----------------------</span><br><span class="line">    vm.max_map_count=655360</span><br><span class="line">    # 尽量避免使用swap</span><br><span class="line">    vm.swappiness=0</span><br><span class="line">    # 修改内存分配策略</span><br><span class="line">    vm.overcommit_memory=1</span><br><span class="line">    vm.overcommit_ratio=80</span><br><span class="line">    ----------------------</span><br><span class="line">    sysctl -p</span><br><span class="line"><span class="meta prompt_">	</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">配置安全限制</span></span><br><span class="line">    vi /etc/security/limits.conf</span><br><span class="line">    ---------------------</span><br><span class="line">    * soft nofile 65536</span><br><span class="line">    * hard nofile 65536</span><br><span class="line">    * soft nproc 65536</span><br><span class="line">    * hard nproc 65536</span><br><span class="line">    ---------------------</span><br><span class="line">        </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">关闭THP(Transparent Huge Pages : 防止内存锁影响性能)</span></span><br><span class="line">    vim /etc/rc.local</span><br><span class="line">    #-----------------------------------------------------------</span><br><span class="line">    if test -f /sys/kernel/mm/transparent_hugepage/enabled; then</span><br><span class="line">    echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled</span><br><span class="line">    fi</span><br><span class="line">    if test -f /sys/kernel/mm/transparent_hugepage/defrag; then</span><br><span class="line">    echo never &gt; /sys/kernel/mm/transparent_hugepage/defrag</span><br><span class="line">    fi</span><br><span class="line">    #-----------------------------------------------------------</span><br><span class="line">    </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">检查并安装 psmisc</span></span><br><span class="line">    rpm -qf /sbin/fuser</span><br><span class="line">    # psmisc-22.20-17.el7.x86_64</span><br><span class="line">    # 如果psmisc不存在</span><br><span class="line">    yum install psmisc -y</span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://frimiku.github.io">Frimiku</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://frimiku.github.io/2024/03/08/VMware%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%89%E8%A3%85Linux(CentOS7)/">https://frimiku.github.io/2024/03/08/VMware%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%89%E8%A3%85Linux(CentOS7)/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://frimiku.github.io" target="_blank">Frimiku` Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BAVMware/">虚拟机VMware</a></div><div class="post_share"><div class="social-share" data-image="https://gitee.com/LemonWorld/picture/raw/master/img/%E5%A4%9C%E6%99%9A%E8%8A%B1%E7%81%AB.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/03/06/HBase%E4%BC%B8%E7%BC%A9%E6%80%A7%E5%92%8C%E5%8F%AF%E7%94%A8%E6%80%A7/" title="HBase的伸缩性和可用性"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E7%94%BB%E5%B8%83.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">HBase的伸缩性和可用性</div></div></a></div><div class="next-post pull-right"><a href="/2024/03/17/RDB%E4%BC%98%E5%8C%96/" title="RDB优化"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E9%BB%84%E6%98%8F%E4%B8%8B.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">RDB优化</div></div></a></div></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/./others/imgs/sanjiu.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Frimiku</div><div class="author-info__description">一个技术宅的博客</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">58</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">24</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Frimiku"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Frimiku" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到 Frimiku`Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%EF%BC%9A%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="toc-number">1.</span> <span class="toc-text">一：虚拟机的创建</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%EF%BC%9A%E5%AE%89%E8%A3%85%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="toc-number">2.</span> <span class="toc-text">二：安装操作系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%EF%BC%89%E5%BC%80%E5%90%AF%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-number">2.0.1.</span> <span class="toc-text">1）开启虚拟机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%EF%BC%89%E4%BD%BF%E7%94%A8%E9%94%AE%E7%9B%98%E4%B8%8A%E4%B8%8B%E9%94%AE%E9%80%89%E6%8B%A9Install-CentOS-7"><span class="toc-number">2.0.2.</span> <span class="toc-text">2）使用键盘上下键选择Install CentOS 7</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%EF%BC%89-%E4%BC%9A%E8%87%AA%E5%8A%A8%E8%B7%B3%E8%BD%AC%E4%B8%8B%E9%9D%A2%E7%9A%84%E7%95%8C%E9%9D%A2"><span class="toc-number">2.0.3.</span> <span class="toc-text">3） 会自动跳转下面的界面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4%EF%BC%89-%E5%AE%9A%E5%88%B6%E5%8C%96%E5%86%85%E5%AE%B9"><span class="toc-number">2.0.4.</span> <span class="toc-text">4） 定制化内容</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%E3%80%81%E6%97%B6%E9%97%B4%E5%92%8C%E6%97%A5%E6%9C%9F%EF%BC%8C%E8%B0%83%E6%95%B4%E6%97%B6%E5%B7%AE"><span class="toc-number">2.0.4.1.</span> <span class="toc-text">1、时间和日期，调整时差</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%E3%80%81%E8%BD%AF%E4%BB%B6%E9%80%89%E6%8B%A9"><span class="toc-number">2.0.4.2.</span> <span class="toc-text">2、软件选择</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3%E3%80%81%E5%AE%89%E8%A3%85%E4%BD%8D%E7%BD%AE"><span class="toc-number">2.0.4.3.</span> <span class="toc-text">3、安装位置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5%E3%80%81%E4%BF%AE%E6%94%B9%E4%B8%BB%E6%9C%BA%E5%90%8D"><span class="toc-number">2.0.4.4.</span> <span class="toc-text">5、修改主机名</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6%E3%80%81%E5%BC%80%E5%A7%8B%E5%AE%89%E8%A3%85"><span class="toc-number">2.0.4.5.</span> <span class="toc-text">6、开始安装</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5%EF%BC%89-root%E4%B8%8Euser%E5%88%9B%E5%BB%BA"><span class="toc-number">2.0.5.</span> <span class="toc-text">5） root与user创建</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#root%E5%88%9B%E5%BB%BA"><span class="toc-number">2.0.5.1.</span> <span class="toc-text">root创建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#user%E5%88%9B%E5%BB%BA"><span class="toc-number">2.0.5.2.</span> <span class="toc-text">user创建</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6%EF%BC%89-%E5%AE%8C%E6%88%90%E9%85%8D%E7%BD%AE%E5%B9%B6%E9%87%8D%E5%90%AF%E5%90%8E%E5%8D%B3%E5%8F%AF%E4%BD%BF%E7%94%A8"><span class="toc-number">2.0.6.</span> <span class="toc-text">6） 完成配置并重启后即可使用</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%EF%BC%9A%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE"><span class="toc-number">3.</span> <span class="toc-text">三：网络设置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%EF%BC%9A%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E4%BC%98%E5%8C%96"><span class="toc-number">4.</span> <span class="toc-text">四：虚拟机的优化</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%94%EF%BC%9A%E8%BF%9E%E6%8E%A5moba"><span class="toc-number">5.</span> <span class="toc-text">五：连接moba</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%AD%EF%BC%9A%E6%9C%AC%E5%9C%B0%E9%95%9C%E5%83%8F%E6%8C%82%E8%BD%BD"><span class="toc-number">6.</span> <span class="toc-text">六：本地镜像挂载</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%83%EF%BC%9A%E8%BF%9C%E7%A8%8B%E9%95%9C%E5%83%8F%E6%BA%90%E8%AE%BE%E7%BD%AE"><span class="toc-number">7.</span> <span class="toc-text">七：远程镜像源设置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%AB%EF%BC%9A%E5%AE%89%E8%A3%85yum"><span class="toc-number">8.</span> <span class="toc-text">八：安装yum</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B9%9D%EF%BC%9A%E9%A2%9D%E5%A4%96%E4%BC%98%E5%8C%96%E9%85%8D%E7%BD%AE%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89"><span class="toc-number">9.</span> <span class="toc-text">九：额外优化配置（可选）</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/29/Java%E4%B9%8B%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/" title="无题">无题</a><time datetime="2024-07-29T13:24:07.400Z" title="发表于 2024-07-29 21:24:07">2024-07-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/29/Hive%E4%B9%8B%E6%89%A9%E5%B1%95%E5%87%BD%E6%95%B0(UDF)/" title="无题">无题</a><time datetime="2024-07-29T13:24:07.397Z" title="发表于 2024-07-29 21:24:07">2024-07-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/29/Hive%E8%A1%A8%E3%80%90%E6%B1%87%E6%80%BB%E3%80%91/" title="Hive表【汇总】"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E6%9F%8A%E7%AD%B1%E5%A8%85.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hive表【汇总】"/></a><div class="content"><a class="title" href="/2024/07/29/Hive%E8%A1%A8%E3%80%90%E6%B1%87%E6%80%BB%E3%80%91/" title="Hive表【汇总】">Hive表【汇总】</a><time datetime="2024-07-29T13:24:07.388Z" title="发表于 2024-07-29 21:24:07">2024-07-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/28/music/" title="music">music</a><time datetime="2024-07-28T08:07:05.000Z" title="发表于 2024-07-28 16:07:05">2024-07-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/17/Mysql%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E3%80%90%E8%99%9A%E6%8B%9F%E6%9C%BA%E3%80%91/" title="Mysql一键安装【虚拟机】"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E9%AC%BC%E7%81%AD.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Mysql一键安装【虚拟机】"/></a><div class="content"><a class="title" href="/2024/07/17/Mysql%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E3%80%90%E8%99%9A%E6%8B%9F%E6%9C%BA%E3%80%91/" title="Mysql一键安装【虚拟机】">Mysql一键安装【虚拟机】</a><time datetime="2024-07-16T16:00:00.000Z" title="发表于 2024-07-17 00:00:00">2024-07-17</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://gitee.com/LemonWorld/picture/raw/master/img/%E5%A4%9C%E6%99%9A%E8%8A%B1%E7%81%AB.png')"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2024 By Frimiku</div><div class="footer_custom_text">welcome to <a href="https://frimiku.github.io/">Frimiku</a>'s Blog!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"><script>(() => {
+  const initValine = () => {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'lmEQpOsJf8mT3BIGHZZ7EDq4-gzGzoHsz',
+      appKey: '7APMLg7dJeJb0sE6hHymEyaY',
+      avatar: 'monsterid',
+      serverURLs: '7frkCVvvwQAZBPCcjmeKotvz',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: true
+    }, null))
+  }
+
+  const loadValine = async () => {
+    if (typeof Valine === 'function') initValine()
+    else {
+      await getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js')
+      initValine()
+    }
+  }
+
+  if ('Valine' === 'Valine' || !false) {
+    if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+    else setTimeout(loadValine, 0)
+  } else {
+    window.loadOtherComment = loadValine
+  }
+})()</script></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><div class="aplayer no-destroy" data-id="496869422" data-server="netease" data-type="song" data-fixed="true" data-autoplay="true"> </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"]):not([href="/movies/"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '1.5s');
+    arr[i].setAttribute('data-wow-delay', '200ms');
+    arr[i].setAttribute('data-wow-offset', '30');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '200ms');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('flink-list-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__flipInY');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('flink-list-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__animated');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('article-sort-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__slideInRight');
+    arr[i].setAttribute('data-wow-duration', '1.5s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('site-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__flipInY');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('site-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__animated');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://cdn.cbd.int/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://cdn.cbd.int/hexo-butterfly-wowjs/lib/wow_init.js"></script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v6.2.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v4.3.1" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" data-title="本站采用多线部署，主线路托管于Vercel" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="https://npm.elemecdn.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.js"></script><script data-pjax>
+    function butterfly_categories_card_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<style>li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: 190px;overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: 160px;}}</style><div class="recent-post-item" style="height:auto;width:100%;padding:0px;"><div id="categoryBar"><ul class="categoryBar-list"><li class="categoryBar-list-item" style="background:url(./others/imgs/磁贴1.png);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/学习主线/&quot;);" href="javascript:void(0);">学习主线</a><span class="categoryBar-list-count">45</span><span class="categoryBar-list-descr">Hadoop</span></li><li class="categoryBar-list-item" style="background:url(./others/imgs/磁贴2.png);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/categories/&quot;);" href="javascript:void(0);">categories</a><span class="categoryBar-list-count">1</span><span class="categoryBar-list-descr">Java</span></li><li class="categoryBar-list-item" style="background:url(./others/imgs/磁贴3.png);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/学习支线/&quot;);" href="javascript:void(0);">学习支线</a><span class="categoryBar-list-count">9</span><span class="categoryBar-list-descr">SpringBoot</span></li></ul></div></div>';
+      console.log('已挂载butterfly_categories_card')
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    butterfly_categories_card_injector_config()
+    }
+  </script><!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":"fasle"},"log":false});</script></body></html>

@@ -1,0 +1,419 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Hive的基本操作（创建与修改） | Frimiku` Blog</title><meta name="author" content="Frimiku"><meta name="copyright" content="Frimiku"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="必备知识数据类型基本类型   类型 写法    字符 char, varchar, string✔   整数 tinyint, smallint, int✔, bigint✔   小数 float, double, numeric(m,n), decimal(m,n)✔   布尔值 boolean✔   时间 date✔, timestamp✔   复杂类型(集合类型)1234567891、数组：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hive的基本操作（创建与修改）">
+<meta property="og:url" content="https://frimiku.github.io/2024/07/08/Hive%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%EF%BC%88%E5%88%9B%E5%BB%BA%E4%B8%8E%E4%BF%AE%E6%94%B9%EF%BC%89/index.html">
+<meta property="og:site_name" content="Frimiku&#96; Blog">
+<meta property="og:description" content="必备知识数据类型基本类型   类型 写法    字符 char, varchar, string✔   整数 tinyint, smallint, int✔, bigint✔   小数 float, double, numeric(m,n), decimal(m,n)✔   布尔值 boolean✔   时间 date✔, timestamp✔   复杂类型(集合类型)1234567891、数组：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/LemonWorld/picture/raw/master/img/%E6%9F%8A%E7%AD%B1%E5%A8%85.png">
+<meta property="article:published_time" content="2024-07-07T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-07-15T00:46:19.901Z">
+<meta property="article:author" content="Frimiku">
+<meta property="article:tag" content="大数据">
+<meta property="article:tag" content="Hive">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/LemonWorld/picture/raw/master/img/%E6%9F%8A%E7%AD%B1%E5%A8%85.png"><link rel="shortcut icon" href="/./others/imgs/%E5%8F%8C%E5%8F%B6%E5%AD%90.png"><link rel="canonical" href="https://frimiku.github.io/2024/07/08/Hive%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%EF%BC%88%E5%88%9B%E5%BB%BA%E4%B8%8E%E4%BF%AE%E6%94%B9%EF%BC%89/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Hive的基本操作（创建与修改）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-15 08:46:19'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-categories-card@1.0.0/lib/categorybar.css"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/./others/imgs/sanjiu.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">58</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">24</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 目录</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 相关链接</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 更多</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-link"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-heart"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://gitee.com/LemonWorld/picture/raw/master/img/%E6%9F%8A%E7%AD%B1%E5%A8%85.png')"><nav id="nav"><span id="blog-info"><a href="/" title="Frimiku` Blog"><span class="site-name">Frimiku` Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 目录</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 相关链接</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 更多</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-link"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-heart"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Hive的基本操作（创建与修改）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-07-07T16:00:00.000Z" title="发表于 2024-07-08 00:00:00">2024-07-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-15T00:46:19.901Z" title="更新于 2024-07-15 08:46:19">2024-07-15</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0%E4%B8%BB%E7%BA%BF/">学习主线</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>8分钟</span></span><span class="post-meta-separator">|</span><span class="leancloud_visitors" id="/2024/07/08/Hive%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%EF%BC%88%E5%88%9B%E5%BB%BA%E4%B8%8E%E4%BF%AE%E6%94%B9%EF%BC%89/" data-flag-title="Hive的基本操作（创建与修改）"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span class="leancloud-visitors-count"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="必备知识"><a href="#必备知识" class="headerlink" title="必备知识"></a>必备知识</h1><h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><h3 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h3><table>
+<thead>
+<tr>
+<th align="center">类型</th>
+<th align="center">写法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">字符</td>
+<td align="center">char, varchar, string✔</td>
+</tr>
+<tr>
+<td align="center">整数</td>
+<td align="center">tinyint, smallint, int✔, bigint✔</td>
+</tr>
+<tr>
+<td align="center">小数</td>
+<td align="center">float, double, numeric(m,n), decimal(m,n)✔</td>
+</tr>
+<tr>
+<td align="center">布尔值</td>
+<td align="center">boolean✔</td>
+</tr>
+<tr>
+<td align="center">时间</td>
+<td align="center">date✔, timestamp✔</td>
+</tr>
+</tbody></table>
+<h3 id="复杂类型-集合类型"><a href="#复杂类型-集合类型" class="headerlink" title="复杂类型(集合类型)"></a>复杂类型(集合类型)</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1、数组：array&lt;T&gt;	</span><br><span class="line">	面向用户提供的原始数据做结构化映射</span><br><span class="line">	样例： [] / |156,1778,42,138|	=&gt; 描述同一个维度数据</span><br><span class="line">	</span><br><span class="line">2、键值对：map&lt;K,V&gt;		</span><br><span class="line">	样例： |LogicJava:88,mysql:89|</span><br><span class="line">	</span><br><span class="line">3、结构体：struct&lt;name1:value1,name2:value2,....&gt;</span><br><span class="line">	样例： 类json格式【以&#123;&#125;开头结尾，且结构稳定】 =&gt; 结构化数据</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="【创建】表操作"><a href="#【创建】表操作" class="headerlink" title="【创建】表操作"></a>【创建】表操作</h1><h2 id="一：hive建表【基本语法】"><a href="#一：hive建表【基本语法】" class="headerlink" title="一：hive建表【基本语法】"></a>一：hive建表【基本语法】</h2><h3 id="语法组成"><a href="#语法组成" class="headerlink" title="语法组成"></a>语法组成</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">组成一：建表 = 基本格式 + 行格式 + 额外处理</span><br><span class="line">组成二：上传数据</span><br></pre></td></tr></table></figure>
+
+<h4 id="基本格式"><a href="#基本格式" class="headerlink" title="*基本格式"></a>*基本格式</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> if <span class="keyword">not</span> <span class="keyword">exists</span> TABLE_NAME(</span><br><span class="line">    FIELD_NAME DATA_TYPE,</span><br><span class="line">    FIELD_NAME DATA_TYPE,</span><br><span class="line">    ....</span><br><span class="line">)[comment <span class="string">&#x27;描述备注&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+<h4 id="行格式"><a href="#行格式" class="headerlink" title="*行格式"></a>*行格式</h4><h5 id="形式一：row-format-delimited"><a href="#形式一：row-format-delimited" class="headerlink" title="形式一：row format delimited"></a><strong>形式一：row format delimited</strong></h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、应用场景：面向文本，非结构化与半结构化数据</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>、模拟数据：</span><br><span class="line">	<span class="number">123</span>,张三,<span class="number">16853210211116</span>,<span class="literal">true</span>,<span class="number">26238.5</span>,阅读;跑步;唱歌,java:<span class="number">98</span>;mysql:<span class="number">54</span>,province:南京;city:江宁</span><br><span class="line">	</span><br><span class="line"><span class="number">3</span>、案例演示：</span><br><span class="line">	<span class="keyword">create</span> <span class="keyword">table</span> if <span class="keyword">not</span> <span class="keyword">exists</span> TABLE_NAME(</span><br><span class="line">		id <span class="type">int</span>,</span><br><span class="line">		name string,</span><br><span class="line">		<span class="type">time</span> <span class="type">bigint</span>,</span><br><span class="line">		isPartyMember <span class="type">boolean</span>,</span><br><span class="line">		hobby <span class="keyword">array</span><span class="operator">&lt;</span>string<span class="operator">&gt;</span>,</span><br><span class="line">		scores map<span class="operator">&lt;</span>string,<span class="type">int</span><span class="operator">&gt;</span>,</span><br><span class="line">		address struct<span class="operator">&lt;</span>province:string,city:string<span class="operator">&gt;</span></span><br><span class="line">	)</span><br><span class="line">	<span class="type">row</span> format delimited</span><br><span class="line">	fields terminated <span class="keyword">by</span> <span class="string">&#x27;,&#x27;</span></span><br><span class="line">	collection items terminated <span class="keyword">by</span> <span class="string">&#x27;;&#x27;</span></span><br><span class="line">	map keys terminated <span class="keyword">by</span> <span class="string">&#x27;:&#x27;</span></span><br><span class="line">	lines terminated <span class="keyword">by</span> <span class="string">&#x27;\n&#x27;</span></span><br><span class="line">	</span><br><span class="line"><span class="number">4</span>、讲解：</span><br><span class="line">	fields terminated <span class="keyword">by</span> <span class="string">&#x27;,&#x27;</span>				列分隔符【字段: id,name...】</span><br><span class="line">	collection items terminated <span class="keyword">by</span> <span class="string">&#x27;;&#x27;</span>		集合项内部间的分隔符</span><br><span class="line">	map keys terminated <span class="keyword">by</span> <span class="string">&#x27;:&#x27;</span>				键值对[map]分隔符</span><br><span class="line">	lines terminated <span class="keyword">by</span> <span class="string">&#x27;\n&#x27;</span>				行分隔符【默认，一般可以省略】</span><br></pre></td></tr></table></figure>
+
+<h5 id="形式二：row-format-serde-‘CLASS-PATH’"><a href="#形式二：row-format-serde-‘CLASS-PATH’" class="headerlink" title="形式二：row format serde ‘CLASS_PATH’"></a><strong>形式二：row format serde ‘CLASS_PATH’</strong></h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、应用场景：面向结构化数据，即：结构清晰的数据</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>、CLASS_PATH有以下几种选择：</span><br><span class="line">	选择一：CSV【简单类型】</span><br><span class="line">		数据呈现：</span><br><span class="line">			&quot;1&quot;,&quot;2&quot;,&quot;Football&quot;</span><br><span class="line">			&quot;2&quot;,&quot;2&quot;,&quot;Soccer&quot;</span><br><span class="line">			&quot;3&quot;,&quot;2&quot;,&quot;Baseball &amp; Softball&quot;</span><br><span class="line">        代码：</span><br><span class="line">        	<span class="keyword">create</span> <span class="keyword">table</span> if <span class="keyword">not</span> <span class="keyword">exists</span> TABLE_NAME(</span><br><span class="line">                id string,</span><br><span class="line">                page string,</span><br><span class="line">                word string</span><br><span class="line">            )</span><br><span class="line">         	<span class="type">row</span> format serde <span class="string">&#x27;org.apache.hadoop.hive.serde2.OpenCSVSerde&#x27;</span></span><br><span class="line">         	<span class="keyword">with</span> serdeproperties(</span><br><span class="line">                <span class="string">&#x27;separatorChar&#x27;</span><span class="operator">=</span><span class="string">&#x27;,&#x27;</span>,</span><br><span class="line">                <span class="string">&#x27;quoteChar&#x27;</span><span class="operator">=</span><span class="string">&#x27;&quot;&#x27;</span>,</span><br><span class="line">                <span class="string">&#x27;escapeChar&#x27;</span><span class="operator">=</span><span class="string">&#x27;\\&#x27;</span></span><br><span class="line">            )</span><br><span class="line">            </span><br><span class="line">	选择二：regex【正则】</span><br><span class="line">		数据呈现：</span><br><span class="line">			<span class="number">123</span>,张三,<span class="number">16853210211116</span>,<span class="literal">true</span>,<span class="number">26238.5</span>,阅读;跑步;唱歌,java:<span class="number">98</span>;mysql:<span class="number">54</span>,province:南京;city:江宁</span><br><span class="line">		代码：</span><br><span class="line">			<span class="keyword">create</span> <span class="keyword">table</span> if <span class="keyword">not</span> <span class="keyword">exists</span> TABLE_NAME(</span><br><span class="line">                id <span class="type">int</span>,</span><br><span class="line">                name string,</span><br><span class="line">                <span class="type">time</span> <span class="type">bigint</span>,</span><br><span class="line">                isPartyMember <span class="type">boolean</span>,</span><br><span class="line">                hobby <span class="keyword">array</span><span class="operator">&lt;</span>string<span class="operator">&gt;</span>,</span><br><span class="line">                scores map<span class="operator">&lt;</span>string,<span class="type">int</span><span class="operator">&gt;</span>,</span><br><span class="line">                address struct<span class="operator">&lt;</span>province:string,city:string<span class="operator">&gt;</span></span><br><span class="line">            )</span><br><span class="line">            <span class="type">row</span> format serde <span class="string">&#x27;org.apache.hadoop.hive.serde2.RegexSerDe&#x27;</span></span><br><span class="line">			<span class="keyword">with</span> serdeproperties(</span><br><span class="line">            	<span class="string">&#x27;input.regex&#x27;</span><span class="operator">=</span><span class="string">&#x27;^(//d+),(.*?),(//d+),(true|false),(\\d+\\.?\\d+?)$&#x27;</span></span><br><span class="line">            )</span><br><span class="line">            </span><br><span class="line">	选择三：JsonSerDe</span><br><span class="line">		数据呈现：</span><br><span class="line">			&#123;&quot;name&quot;:&quot;henry&quot;,&quot;age&quot;:<span class="number">22</span>,&quot;gender&quot;:&quot;male&quot;,&quot;phone&quot;:&quot;18014499655&quot;&#125;</span><br><span class="line">		代码：</span><br><span class="line">			<span class="keyword">create</span> <span class="keyword">table</span> if <span class="keyword">not</span> <span class="keyword">exists</span> json(</span><br><span class="line">                name string,</span><br><span class="line">                age <span class="type">int</span>,</span><br><span class="line">                gender string,</span><br><span class="line">                phone string</span><br><span class="line">            )</span><br><span class="line">            <span class="type">row</span> format serde <span class="string">&#x27;org.apache.hive.hcatalog.data.JsonSerDe&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="额外处理"><a href="#额外处理" class="headerlink" title="*额外处理"></a>*额外处理</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、store【存储】</span><br><span class="line">	基本语法：stored <span class="keyword">as</span> <span class="string">&#x27;存储格式&#x27;</span></span><br><span class="line">		存储格式：textfile✔,orc,parquet,sequencefile,...</span><br><span class="line">	案例：</span><br><span class="line">		stored <span class="keyword">as</span> textfile</span><br><span class="line">		</span><br><span class="line"><span class="number">2</span>、tblproperties【表属性】(通用)：</span><br><span class="line">	案例【实际情况具体分析】：</span><br><span class="line">		tblproperties(</span><br><span class="line">			<span class="string">&#x27;skip.header.line.count&#x27;</span><span class="operator">=</span><span class="string">&#x27;1&#x27;</span>			【跳过表头，即：第一行】</span><br><span class="line">			...</span><br><span class="line">		)</span><br></pre></td></tr></table></figure>
+
+<h4 id="上传数据入表"><a href="#上传数据入表" class="headerlink" title="*上传数据入表"></a>*上传数据入表</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">方法一【不建议用】：</span><br><span class="line">	hdfs dfs <span class="operator">-</span>put employee.txt <span class="operator">/</span>hive312<span class="operator">/</span>warehouse<span class="operator">/</span>yb12211.db<span class="operator">/</span>inner_table_employee</span><br><span class="line">	</span><br><span class="line">方法二【有校验过程】：✔</span><br><span class="line">	需知：</span><br><span class="line">    	<span class="keyword">local</span> ：表示数据在虚拟机本地</span><br><span class="line">        	缺少<span class="keyword">local</span> ：表示数据在hdfs上</span><br><span class="line">		overload ：覆盖</span><br><span class="line">			缺少overload ：追加</span><br><span class="line">	第一种【本地虚拟机】：</span><br><span class="line">		load data <span class="keyword">local</span> inpath <span class="string">&#x27;/root/file/employee.txt&#x27;</span></span><br><span class="line">		overwrite <span class="keyword">into</span> <span class="keyword">table</span> yb12211.inner_table_employee;</span><br><span class="line">	第二种【hdfs】：</span><br><span class="line">		load data inpath <span class="string">&#x27;/hive_data/hive_cha01/employee/employee.txt&#x27;</span></span><br><span class="line">		overwrite <span class="keyword">into</span> <span class="keyword">table</span> yb12211.inner_table_employee;</span><br><span class="line"></span><br><span class="line">方法三【只用于【外部表】】：✔</span><br><span class="line">	基本格式：location <span class="string">&#x27;hdfs中存放文件的【目录】的路径&#x27;</span>			外部挂载</span><br></pre></td></tr></table></figure>
+
+<h3 id="针对性实践操作"><a href="#针对性实践操作" class="headerlink" title="针对性实践操作"></a>针对性实践操作</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line">案例一：</span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	1|henry|1.81|1995-03-18|江苏,南京,玄武,北京东路68号|logicjava:88,javaoop:76,mysql:80,ssm:82|beauty,money,joke</span></span><br><span class="line"><span class="comment">	2|arill|1.59|1996-7-30|安徽,芜湖,南山,西湖东路68号|logicjava:79,javaoop:58,mysql:65,ssm:85|beauty,power,sleeping</span></span><br><span class="line"><span class="comment">	3|mary|1.72|1995-09-02|山东,青岛,长虹,天山东路68</span></span><br><span class="line"><span class="comment">	*/</span></span><br><span class="line">	<span class="keyword">drop</span> <span class="keyword">table</span> if <span class="keyword">exists</span> students;</span><br><span class="line">	<span class="keyword">create</span> <span class="keyword">table</span> if <span class="keyword">not</span> <span class="keyword">exists</span> students(</span><br><span class="line">		number <span class="type">int</span>,</span><br><span class="line">		name string,</span><br><span class="line">		height <span class="type">decimal</span>(<span class="number">3</span>,<span class="number">2</span>),</span><br><span class="line">		birthday <span class="type">date</span>,</span><br><span class="line">		house struct<span class="operator">&lt;</span>province:string,city:string,district:string,street:string<span class="operator">&gt;</span>,</span><br><span class="line">		scores map<span class="operator">&lt;</span>string,<span class="type">int</span><span class="operator">&gt;</span>,</span><br><span class="line">		hobby <span class="keyword">array</span><span class="operator">&lt;</span>string<span class="operator">&gt;</span></span><br><span class="line">	)</span><br><span class="line">	<span class="type">row</span> format delimited</span><br><span class="line">	fields terminated <span class="keyword">by</span> &quot;|&quot;</span><br><span class="line">	collection items terminated <span class="keyword">by</span> &quot;,&quot;</span><br><span class="line">	map keys terminated <span class="keyword">by</span> &quot;:&quot;</span><br><span class="line">	stored <span class="keyword">as</span> textfile;</span><br><span class="line">	</span><br><span class="line">	load data inpath <span class="string">&#x27;/zhou/students.txt&#x27;</span></span><br><span class="line">	overwrite <span class="keyword">into</span> <span class="keyword">table</span> zhou.students;</span><br><span class="line"></span><br><span class="line">案例二：</span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	user_id,auction_id,cat_id,cat1,property,buy_mount,day</span></span><br><span class="line"><span class="comment">786295544,41098319944,50014866,50022520,21458:86755362;13023209:3593274;10984217:21985;122217965:3227750;21477:28695579;22061:30912;122217803:3230095,2,123434123</span></span><br><span class="line"><span class="comment">	*/</span></span><br><span class="line">	<span class="keyword">drop</span> <span class="keyword">table</span> if <span class="keyword">exists</span> sam_mum_baby_trade;</span><br><span class="line">	<span class="keyword">create</span> <span class="keyword">external</span> <span class="keyword">table</span> if <span class="keyword">not</span> <span class="keyword">exists</span> sam_mum_baby_trade(</span><br><span class="line">		user_id <span class="type">bigint</span>,</span><br><span class="line">		auction_id <span class="type">bigint</span>,</span><br><span class="line">		cat_id <span class="type">bigint</span>,</span><br><span class="line">		cat1 <span class="type">bigint</span>,</span><br><span class="line">		property map<span class="operator">&lt;</span><span class="type">bigint</span>,<span class="type">bigint</span><span class="operator">&gt;</span>,</span><br><span class="line">		buy_mount <span class="type">int</span>,</span><br><span class="line">		<span class="keyword">day</span> <span class="type">bigint</span></span><br><span class="line">	)</span><br><span class="line">	<span class="type">row</span> format delimited</span><br><span class="line">	fields terminated <span class="keyword">by</span> &quot;,&quot;</span><br><span class="line">	collection items terminated <span class="keyword">by</span> &quot;;&quot;</span><br><span class="line">	map keys terminated <span class="keyword">by</span> &quot;:&quot;</span><br><span class="line">		stored <span class="keyword">as</span> textfile</span><br><span class="line">	tblproperties (</span><br><span class="line">		<span class="string">&#x27;skip.header.line.count&#x27;</span><span class="operator">=</span><span class="string">&#x27;1&#x27;</span></span><br><span class="line">		);</span><br><span class="line">	load data inpath <span class="string">&#x27;/zhou/sam_mum_baby_trade.csv&#x27;</span></span><br><span class="line">	<span class="keyword">into</span> <span class="keyword">table</span> zhou.sam_mum_baby_trade;</span><br><span class="line"></span><br><span class="line">案例三:</span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	&quot;1&quot;,&quot;2&quot;,&quot;Football&quot;</span></span><br><span class="line"><span class="comment">	&quot;2&quot;,&quot;2&quot;,&quot;Soccer&quot;</span></span><br><span class="line"><span class="comment">	&quot;3&quot;,&quot;2&quot;,&quot;Baseball &amp; Softball&quot;</span></span><br><span class="line"><span class="comment">	*/</span></span><br><span class="line">	<span class="keyword">drop</span> <span class="keyword">table</span> if <span class="keyword">exists</span> categories;</span><br><span class="line">	<span class="keyword">create</span> <span class="keyword">table</span> if <span class="keyword">not</span> <span class="keyword">exists</span> categories(</span><br><span class="line">		id string,</span><br><span class="line">		page string,</span><br><span class="line">		word string</span><br><span class="line">	)</span><br><span class="line">	<span class="type">row</span> format serde <span class="string">&#x27;org.apache.hadoop.hive.serde2.OpenCSVSerde&#x27;</span></span><br><span class="line">	<span class="keyword">with</span> serdeproperties(</span><br><span class="line">		<span class="string">&#x27;separatorChar&#x27;</span><span class="operator">=</span><span class="string">&#x27;,&#x27;</span>,</span><br><span class="line">		<span class="string">&#x27;quoteChar&#x27;</span><span class="operator">=</span><span class="string">&#x27;&quot;&#x27;</span>,</span><br><span class="line">		<span class="string">&#x27;escapeChar&#x27;</span><span class="operator">=</span><span class="string">&#x27;\\&#x27;</span></span><br><span class="line">	)</span><br><span class="line">	stored <span class="keyword">as</span> textfile;</span><br><span class="line">	load data inpath <span class="string">&#x27;/zhou/categories.csv&#x27;</span></span><br><span class="line">	overwrite <span class="keyword">into</span> <span class="keyword">table</span> zhou.categories;</span><br><span class="line">	<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> categories;</span><br><span class="line"></span><br><span class="line">案例四：</span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	&#123;&quot;name&quot;:&quot;henry&quot;,&quot;age&quot;:22,&quot;gender&quot;:&quot;male&quot;,&quot;phone&quot;:&quot;18014499655&quot;&#125;</span></span><br><span class="line"><span class="comment">	*/</span></span><br><span class="line">	<span class="operator">/</span><span class="operator">/</span>Json</span><br><span class="line">	<span class="keyword">drop</span> <span class="keyword">table</span> if <span class="keyword">exists</span> json;</span><br><span class="line">	<span class="keyword">create</span> <span class="keyword">table</span> if <span class="keyword">not</span> <span class="keyword">exists</span> json(</span><br><span class="line">		name string,</span><br><span class="line">		age <span class="type">int</span>,</span><br><span class="line">		gender string,</span><br><span class="line">		phone string</span><br><span class="line">	)</span><br><span class="line">	<span class="type">row</span> format serde <span class="string">&#x27;org.apache.hive.hcatalog.data.JsonSerDe&#x27;</span></span><br><span class="line">	stored <span class="keyword">as</span> textfile;</span><br><span class="line">	load data inpath <span class="string">&#x27;/zhou/json.log&#x27;</span></span><br><span class="line">	overwrite <span class="keyword">into</span> <span class="keyword">table</span> zhou.json;</span><br><span class="line"></span><br><span class="line">案例五：</span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	125;男;2015-9-7 1:52:22;1521.84</span></span><br><span class="line"><span class="comment">	883;男;2014-9-18 5:24:42;6391.45</span></span><br><span class="line"><span class="comment">	652;女;2014-5-4 5:56:45;9603.79</span></span><br><span class="line"><span class="comment">	*/</span></span><br><span class="line">	<span class="keyword">create</span> <span class="keyword">external</span> <span class="keyword">table</span> if <span class="keyword">not</span> <span class="keyword">exists</span> test1w(</span><br><span class="line">		user_id <span class="type">int</span>,</span><br><span class="line">		user_gender string,</span><br><span class="line">		order_time <span class="type">timestamp</span>,</span><br><span class="line">		order_amount <span class="type">decimal</span>(<span class="number">6</span>,<span class="number">2</span>)</span><br><span class="line">	)</span><br><span class="line">	<span class="type">row</span> format serde <span class="string">&#x27;org.apache.hadoop.hive.serde2.RegexSerDe&#x27;</span></span><br><span class="line">	<span class="keyword">with</span> serdeproperties(</span><br><span class="line">		<span class="string">&#x27;input.regex&#x27;</span><span class="operator">=</span><span class="string">&#x27;(\\d+);(.*?);(\\d&#123;4&#125;-\\d&#123;1,2&#125;-\\d&#123;1,2&#125; \\d&#123;1,2&#125;:\\d&#123;1,2&#125;:\\d&#123;1,2&#125;);(\\d+\.?\\d+?)&#x27;</span></span><br><span class="line">	)</span><br><span class="line">	stored <span class="keyword">as</span> textfile</span><br><span class="line">	location <span class="string">&#x27;/zhou/test1w&#x27;</span>;</span><br><span class="line">	<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test1w;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二：hive建表【高阶语法】"><a href="#二：hive建表【高阶语法】" class="headerlink" title="二：hive建表【高阶语法】"></a>二：hive建表【高阶语法】</h2><h3 id="1：CTAS"><a href="#1：CTAS" class="headerlink" title="1：CTAS"></a>1：CTAS</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">【本质】：在原有表的基础上查询并创建新表</span><br><span class="line">基本语法：</span><br><span class="line">	create table if not exists NEW_TABLE_NAME as select ... from OLD_TABLE_NAME ...</span><br><span class="line">案例：</span><br><span class="line">	原有的表：hive_ext_regex_test1w</span><br><span class="line">	语句：</span><br><span class="line">    	create table if not exists hive_ext_test_before2015 as</span><br><span class="line">    	select * from hive_ext_regex_test1w</span><br><span class="line">    	where year(order_time)&lt;=2015;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2：CTE"><a href="#2：CTE" class="headerlink" title="2：CTE"></a>2：CTE</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">【本质】：对表进行层层筛选，最终形成新表</span><br><span class="line">基本语法：</span><br><span class="line">	<span class="keyword">as</span> with....select...</span><br><span class="line">案例：</span><br><span class="line">	场景：<span class="number">2015</span>年之前的所有数据 以及 <span class="number">2015</span>年之后男性<span class="number">5</span>个以上订单数或<span class="number">5</span>w以上订单总额的订单数据。</span><br><span class="line">	原有的表：hive_ext_regex_test1w</span><br><span class="line">	语句：</span><br><span class="line">		<span class="keyword">create</span> <span class="keyword">table</span> hive_test_before2015_and_male_over5or5w <span class="keyword">as</span></span><br><span class="line">		<span class="keyword">with</span></span><br><span class="line">		before2015 <span class="keyword">as</span> (</span><br><span class="line">			<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> hive_ext_regex_test1w</span><br><span class="line">			<span class="keyword">where</span> <span class="keyword">year</span>(order_time)<span class="operator">&lt;=</span><span class="number">2015</span></span><br><span class="line">		),</span><br><span class="line">		agg_male_over5or5w <span class="keyword">as</span> (</span><br><span class="line">			<span class="keyword">select</span> user_id</span><br><span class="line">			<span class="keyword">from</span> hive_ext_regex_test1w</span><br><span class="line">			<span class="keyword">where</span> <span class="keyword">year</span>(order_time)<span class="operator">&gt;</span><span class="number">2015</span> <span class="keyword">and</span> user_gender<span class="operator">=</span><span class="string">&#x27;男&#x27;</span></span><br><span class="line">			<span class="keyword">group</span> <span class="keyword">by</span> user_id</span><br><span class="line">			<span class="keyword">having</span> <span class="built_in">count</span>(<span class="operator">*</span>)<span class="operator">&gt;=</span><span class="number">5</span> <span class="keyword">or</span> <span class="built_in">sum</span>(order_amount)<span class="operator">&gt;=</span><span class="number">50000</span></span><br><span class="line">		),</span><br><span class="line">		male_over5or5w <span class="keyword">as</span> (</span><br><span class="line">			<span class="keyword">select</span> A.<span class="operator">*</span></span><br><span class="line">			<span class="keyword">from</span>  hive_ext_regex_test1w A</span><br><span class="line">			<span class="keyword">inner</span> <span class="keyword">join</span> agg_male_over5or5w B</span><br><span class="line">			<span class="keyword">on</span> <span class="keyword">year</span>(A.order_time)<span class="operator">&gt;</span><span class="number">2015</span> <span class="keyword">and</span> A.user_id<span class="operator">=</span>B.user_id</span><br><span class="line">		)</span><br><span class="line">		<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> before2015</span><br><span class="line">		<span class="keyword">union</span> <span class="keyword">all</span>							【注意：<span class="keyword">union</span> <span class="keyword">all</span> <span class="operator">=</span><span class="operator">&gt;</span> 将表并在一起且不去重】</span><br><span class="line">		<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> male_over5or5w;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3：CTL"><a href="#3：CTL" class="headerlink" title="3：CTL"></a>3：CTL</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">【本质】：复制原表的表结构</span><br><span class="line">基本语法：</span><br><span class="line">	<span class="keyword">create</span> <span class="keyword">table</span> NEW_TABLE_NAME <span class="keyword">like</span> OLD_TABLE_NAME;</span><br><span class="line">案例：</span><br><span class="line">	<span class="keyword">create</span> <span class="keyword">table</span> hive_test1w_like <span class="keyword">like</span> hive_ext_regex_test1w;</span><br></pre></td></tr></table></figure>
+
+<h1 id="【修改】表操作"><a href="#【修改】表操作" class="headerlink" title="【修改】表操作"></a>【修改】表操作</h1><h3 id="提前需知"><a href="#提前需知" class="headerlink" title="提前需知"></a>提前需知</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1、查看表字段基本信息：</span><br><span class="line">		desc 表名;</span><br><span class="line"></span><br><span class="line">2、查看表字段详细信息：</span><br><span class="line">		desc formatted 表名;	=&gt; 由此可查看表中可修改的属性</span><br><span class="line">		</span><br><span class="line">3、查看建表流程：</span><br><span class="line">		show create 表名;</span><br></pre></td></tr></table></figure>
+
+<h3 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">alter table TABLE_NAME</span><br><span class="line">	rename to NEW_NAME;</span><br><span class="line">	set tblproperties(&#x27;key&#x27;=&#x27;value&#x27;)		-- 修改表属性：包括各种分隔符,SerDe,...</span><br><span class="line">	ser fileformat FORMAT;					-- 修改文件格式</span><br><span class="line">	change old_name new_name TYPE;			-- 修改字段名</span><br><span class="line">	column(field_name TYPE)					-- 添加列</span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://frimiku.github.io">Frimiku</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://frimiku.github.io/2024/07/08/Hive%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%EF%BC%88%E5%88%9B%E5%BB%BA%E4%B8%8E%E4%BF%AE%E6%94%B9%EF%BC%89/">https://frimiku.github.io/2024/07/08/Hive%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%EF%BC%88%E5%88%9B%E5%BB%BA%E4%B8%8E%E4%BF%AE%E6%94%B9%EF%BC%89/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://frimiku.github.io" target="_blank">Frimiku` Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><a class="post-meta__tags" href="/tags/Hive/">Hive</a></div><div class="post_share"><div class="social-share" data-image="https://gitee.com/LemonWorld/picture/raw/master/img/%E6%9F%8A%E7%AD%B1%E5%A8%85.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/07/04/%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA20%E4%B9%8B%E8%B4%AD%E7%89%A9%E5%95%86%E5%BA%97%E6%90%AD%E5%BB%BA/" title="项目搭建20之购物商店搭建"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E5%B1%B1%E5%B7%9D.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">项目搭建20之购物商店搭建</div></div></a></div><div class="next-post pull-right"><a href="/2024/07/09/Hive%E7%90%86%E8%AE%BA%E8%AE%B2%E8%A7%A3/" title="Hive理论讲解"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E6%9F%8A%E7%AD%B1%E5%A8%85.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Hive理论讲解</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/07/09/Hive%E7%90%86%E8%AE%BA%E8%AE%B2%E8%A7%A3/" title="Hive理论讲解"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E6%9F%8A%E7%AD%B1%E5%A8%85.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-09</div><div class="title">Hive理论讲解</div></div></a></div><div><a href="/2024/07/29/Hive%E8%A1%A8%E3%80%90%E6%B1%87%E6%80%BB%E3%80%91/" title="Hive表【汇总】"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E6%9F%8A%E7%AD%B1%E5%A8%85.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-29</div><div class="title">Hive表【汇总】</div></div></a></div><div><a href="/2024/07/15/Hive%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%EF%BC%88%E6%9F%A5%E8%AF%A2%EF%BC%89/" title="Hive的基本操作（查询）"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E6%9F%8A%E7%AD%B1%E5%A8%85.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-15</div><div class="title">Hive的基本操作（查询）</div></div></a></div><div><a href="/2024/01/14/HDFS%E4%B9%8BJava%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%93%8D%E4%BD%9C/" title="大数据之Hadoop（HDFS Java客户端操作）"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E7%8E%9B%E5%A5%87%E7%8E%9B.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-14</div><div class="title">大数据之Hadoop（HDFS Java客户端操作）</div></div></a></div><div><a href="/2024/01/11/HDFS%E5%86%99%E6%96%87%E4%BB%B6/" title="大数据之Hadoop（HDFS写文件）"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E5%B0%8F%E5%9F%8B.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-11</div><div class="title">大数据之Hadoop（HDFS写文件）</div></div></a></div><div><a href="/2024/03/06/HBase%E4%BC%B8%E7%BC%A9%E6%80%A7%E5%92%8C%E5%8F%AF%E7%94%A8%E6%80%A7/" title="HBase的伸缩性和可用性"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E7%94%BB%E5%B8%83.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-06</div><div class="title">HBase的伸缩性和可用性</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/./others/imgs/sanjiu.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Frimiku</div><div class="author-info__description">一个技术宅的博客</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">58</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">24</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Frimiku"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Frimiku" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到 Frimiku`Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BF%85%E5%A4%87%E7%9F%A5%E8%AF%86"><span class="toc-number">1.</span> <span class="toc-text">必备知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.1.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.1.1.</span> <span class="toc-text">基本类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E6%9D%82%E7%B1%BB%E5%9E%8B-%E9%9B%86%E5%90%88%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.1.2.</span> <span class="toc-text">复杂类型(集合类型)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E3%80%90%E5%88%9B%E5%BB%BA%E3%80%91%E8%A1%A8%E6%93%8D%E4%BD%9C"><span class="toc-number">2.</span> <span class="toc-text">【创建】表操作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%EF%BC%9Ahive%E5%BB%BA%E8%A1%A8%E3%80%90%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%E3%80%91"><span class="toc-number">2.1.</span> <span class="toc-text">一：hive建表【基本语法】</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%AD%E6%B3%95%E7%BB%84%E6%88%90"><span class="toc-number">2.1.1.</span> <span class="toc-text">语法组成</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A0%BC%E5%BC%8F"><span class="toc-number">2.1.1.1.</span> <span class="toc-text">*基本格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A1%8C%E6%A0%BC%E5%BC%8F"><span class="toc-number">2.1.1.2.</span> <span class="toc-text">*行格式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BD%A2%E5%BC%8F%E4%B8%80%EF%BC%9Arow-format-delimited"><span class="toc-number">2.1.1.2.1.</span> <span class="toc-text">形式一：row format delimited</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BD%A2%E5%BC%8F%E4%BA%8C%EF%BC%9Arow-format-serde-%E2%80%98CLASS-PATH%E2%80%99"><span class="toc-number">2.1.1.2.2.</span> <span class="toc-text">形式二：row format serde ‘CLASS_PATH’</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A2%9D%E5%A4%96%E5%A4%84%E7%90%86"><span class="toc-number">2.1.1.3.</span> <span class="toc-text">*额外处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8A%E4%BC%A0%E6%95%B0%E6%8D%AE%E5%85%A5%E8%A1%A8"><span class="toc-number">2.1.1.4.</span> <span class="toc-text">*上传数据入表</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%92%88%E5%AF%B9%E6%80%A7%E5%AE%9E%E8%B7%B5%E6%93%8D%E4%BD%9C"><span class="toc-number">2.1.2.</span> <span class="toc-text">针对性实践操作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%EF%BC%9Ahive%E5%BB%BA%E8%A1%A8%E3%80%90%E9%AB%98%E9%98%B6%E8%AF%AD%E6%B3%95%E3%80%91"><span class="toc-number">2.2.</span> <span class="toc-text">二：hive建表【高阶语法】</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%EF%BC%9ACTAS"><span class="toc-number">2.2.1.</span> <span class="toc-text">1：CTAS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%EF%BC%9ACTE"><span class="toc-number">2.2.2.</span> <span class="toc-text">2：CTE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%EF%BC%9ACTL"><span class="toc-number">2.2.3.</span> <span class="toc-text">3：CTL</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E3%80%90%E4%BF%AE%E6%94%B9%E3%80%91%E8%A1%A8%E6%93%8D%E4%BD%9C"><span class="toc-number">3.</span> <span class="toc-text">【修改】表操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E5%89%8D%E9%9C%80%E7%9F%A5"><span class="toc-number">3.0.1.</span> <span class="toc-text">提前需知</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="toc-number">3.0.2.</span> <span class="toc-text">基本语法</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/29/Java%E4%B9%8B%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/" title="无题">无题</a><time datetime="2024-07-29T13:24:07.400Z" title="发表于 2024-07-29 21:24:07">2024-07-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/29/Hive%E4%B9%8B%E6%89%A9%E5%B1%95%E5%87%BD%E6%95%B0(UDF)/" title="无题">无题</a><time datetime="2024-07-29T13:24:07.397Z" title="发表于 2024-07-29 21:24:07">2024-07-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/29/Hive%E8%A1%A8%E3%80%90%E6%B1%87%E6%80%BB%E3%80%91/" title="Hive表【汇总】"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E6%9F%8A%E7%AD%B1%E5%A8%85.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hive表【汇总】"/></a><div class="content"><a class="title" href="/2024/07/29/Hive%E8%A1%A8%E3%80%90%E6%B1%87%E6%80%BB%E3%80%91/" title="Hive表【汇总】">Hive表【汇总】</a><time datetime="2024-07-29T13:24:07.388Z" title="发表于 2024-07-29 21:24:07">2024-07-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/28/music/" title="music">music</a><time datetime="2024-07-28T08:07:05.000Z" title="发表于 2024-07-28 16:07:05">2024-07-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/17/Mysql%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E3%80%90%E8%99%9A%E6%8B%9F%E6%9C%BA%E3%80%91/" title="Mysql一键安装【虚拟机】"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E9%AC%BC%E7%81%AD.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Mysql一键安装【虚拟机】"/></a><div class="content"><a class="title" href="/2024/07/17/Mysql%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E3%80%90%E8%99%9A%E6%8B%9F%E6%9C%BA%E3%80%91/" title="Mysql一键安装【虚拟机】">Mysql一键安装【虚拟机】</a><time datetime="2024-07-16T16:00:00.000Z" title="发表于 2024-07-17 00:00:00">2024-07-17</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://gitee.com/LemonWorld/picture/raw/master/img/%E6%9F%8A%E7%AD%B1%E5%A8%85.png')"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2024 By Frimiku</div><div class="footer_custom_text">welcome to <a href="https://frimiku.github.io/">Frimiku</a>'s Blog!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"><script>(() => {
+  const initValine = () => {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'lmEQpOsJf8mT3BIGHZZ7EDq4-gzGzoHsz',
+      appKey: '7APMLg7dJeJb0sE6hHymEyaY',
+      avatar: 'monsterid',
+      serverURLs: '7frkCVvvwQAZBPCcjmeKotvz',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: true
+    }, null))
+  }
+
+  const loadValine = async () => {
+    if (typeof Valine === 'function') initValine()
+    else {
+      await getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js')
+      initValine()
+    }
+  }
+
+  if ('Valine' === 'Valine' || !false) {
+    if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+    else setTimeout(loadValine, 0)
+  } else {
+    window.loadOtherComment = loadValine
+  }
+})()</script></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><div class="aplayer no-destroy" data-id="496869422" data-server="netease" data-type="song" data-fixed="true" data-autoplay="true"> </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"]):not([href="/movies/"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '1.5s');
+    arr[i].setAttribute('data-wow-delay', '200ms');
+    arr[i].setAttribute('data-wow-offset', '30');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '200ms');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('flink-list-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__flipInY');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('flink-list-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__animated');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('article-sort-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__slideInRight');
+    arr[i].setAttribute('data-wow-duration', '1.5s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('site-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__flipInY');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('site-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__animated');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://cdn.cbd.int/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://cdn.cbd.int/hexo-butterfly-wowjs/lib/wow_init.js"></script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v6.2.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v4.3.1" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" data-title="本站采用多线部署，主线路托管于Vercel" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="https://npm.elemecdn.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.js"></script><script data-pjax>
+    function butterfly_categories_card_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<style>li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: 190px;overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: 160px;}}</style><div class="recent-post-item" style="height:auto;width:100%;padding:0px;"><div id="categoryBar"><ul class="categoryBar-list"><li class="categoryBar-list-item" style="background:url(./others/imgs/磁贴1.png);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/学习主线/&quot;);" href="javascript:void(0);">学习主线</a><span class="categoryBar-list-count">45</span><span class="categoryBar-list-descr">Hadoop</span></li><li class="categoryBar-list-item" style="background:url(./others/imgs/磁贴2.png);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/categories/&quot;);" href="javascript:void(0);">categories</a><span class="categoryBar-list-count">1</span><span class="categoryBar-list-descr">Java</span></li><li class="categoryBar-list-item" style="background:url(./others/imgs/磁贴3.png);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/学习支线/&quot;);" href="javascript:void(0);">学习支线</a><span class="categoryBar-list-count">9</span><span class="categoryBar-list-descr">SpringBoot</span></li></ul></div></div>';
+      console.log('已挂载butterfly_categories_card')
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    butterfly_categories_card_injector_config()
+    }
+  </script><!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":"fasle"},"log":false});</script></body></html>

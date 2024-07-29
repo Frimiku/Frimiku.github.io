@@ -1,0 +1,508 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>项目搭建1之Vue2基本知识 | Frimiku` Blog</title><meta name="author" content="Frimiku"><meta name="copyright" content="Frimiku"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="1、Vue2基础篇一：创建Vue2实例【体验】1.1 基本准备1234561.准备容器，如：&lt;div id&#x3D;&quot;app&quot;&gt;&lt;&#x2F;div&gt;2.引包：官网--开发版本3.创建Vue实例 new Vue()4.指定配置项 el 和 data	el		配置容器，指定vue管理的是哪个盒子	data	提供数据  1.2 实际操作&#x2F;&#x2F;准备容器 &lt;div id&#x3D;&amp;q">
+<meta property="og:type" content="article">
+<meta property="og:title" content="项目搭建1之Vue2基本知识">
+<meta property="og:url" content="https://frimiku.github.io/2024/02/06/%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA1%E4%B9%8BVue2%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86/index.html">
+<meta property="og:site_name" content="Frimiku&#96; Blog">
+<meta property="og:description" content="1、Vue2基础篇一：创建Vue2实例【体验】1.1 基本准备1234561.准备容器，如：&lt;div id&#x3D;&quot;app&quot;&gt;&lt;&#x2F;div&gt;2.引包：官网--开发版本3.创建Vue实例 new Vue()4.指定配置项 el 和 data	el		配置容器，指定vue管理的是哪个盒子	data	提供数据  1.2 实际操作&#x2F;&#x2F;准备容器 &lt;div id&#x3D;&amp;q">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/LemonWorld/picture/raw/master/img/%E9%BE%99%E4%B8%8E%E5%88%9D%E9%9F%B3%E6%9C%AA%E6%9D%A5.png">
+<meta property="article:published_time" content="2024-02-05T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-06-28T04:45:32.428Z">
+<meta property="article:author" content="Frimiku">
+<meta property="article:tag" content="Web前端">
+<meta property="article:tag" content="Vue2">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/LemonWorld/picture/raw/master/img/%E9%BE%99%E4%B8%8E%E5%88%9D%E9%9F%B3%E6%9C%AA%E6%9D%A5.png"><link rel="shortcut icon" href="/./others/imgs/%E5%8F%8C%E5%8F%B6%E5%AD%90.png"><link rel="canonical" href="https://frimiku.github.io/2024/02/06/%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA1%E4%B9%8BVue2%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '项目搭建1之Vue2基本知识',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-06-28 12:45:32'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-categories-card@1.0.0/lib/categorybar.css"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/./others/imgs/sanjiu.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">58</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">24</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 目录</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 相关链接</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 更多</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-link"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-heart"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://gitee.com/LemonWorld/picture/raw/master/img/%E9%BE%99%E4%B8%8E%E5%88%9D%E9%9F%B3%E6%9C%AA%E6%9D%A5.png')"><nav id="nav"><span id="blog-info"><a href="/" title="Frimiku` Blog"><span class="site-name">Frimiku` Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 目录</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 相关链接</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 更多</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-link"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-heart"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">项目搭建1之Vue2基本知识</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-02-05T16:00:00.000Z" title="发表于 2024-02-06 00:00:00">2024-02-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-06-28T04:45:32.428Z" title="更新于 2024-06-28 12:45:32">2024-06-28</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0%E6%94%AF%E7%BA%BF/">学习支线</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>11分钟</span></span><span class="post-meta-separator">|</span><span class="leancloud_visitors" id="/2024/02/06/%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA1%E4%B9%8BVue2%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86/" data-flag-title="项目搭建1之Vue2基本知识"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span class="leancloud-visitors-count"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="1、Vue2基础篇"><a href="#1、Vue2基础篇" class="headerlink" title="1、Vue2基础篇"></a>1、Vue2基础篇</h1><h3 id="一：创建Vue2实例【体验】"><a href="#一：创建Vue2实例【体验】" class="headerlink" title="一：创建Vue2实例【体验】"></a>一：创建Vue2实例【体验】</h3><h4 id="1-1-基本准备"><a href="#1-1-基本准备" class="headerlink" title="1.1 基本准备"></a>1.1 基本准备</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1.准备容器，如：&lt;div id=&quot;app&quot;&gt;&lt;/div&gt;</span><br><span class="line">2.引包：官网--开发版本</span><br><span class="line">3.创建Vue实例 new Vue()</span><br><span class="line">4.指定配置项 el 和 data</span><br><span class="line">	el		配置容器，指定vue管理的是哪个盒子</span><br><span class="line">	data	提供数据</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-2-实际操作"><a href="#1-2-实际操作" class="headerlink" title="1.2 实际操作"></a>1.2 实际操作</h4><pre><code>//准备容器
+&lt;div id=&quot;app&quot;&gt;
+    &lt;p&gt;&#123;&#123; name+'先生' &#125;&#125;&lt;/p&gt;
+    &lt;p&gt;&#123;&#123; friend.name &#125;&#125;&lt;/p&gt;
+    &lt;p&gt;&#123;&#123; age>=18 ? '成年' : '未成年' &#125;&#125;&lt;/p&gt;
+    &lt;p&gt;&#123;&#123; age &#125;&#125;&lt;/p&gt;
+&lt;/div&gt;
+//引包
+&lt;script src=&quot;https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js&quot;&gt;&lt;/script&gt;
+    
+&lt;script&gt;
+    //Vue实例
+    const app = new Vue(&#123;
+        el: &#39;#app&#39;,
+        //data中数据最终会被添加到实例中
+        data: &#123;
+            name: &#39;tony&#39;,
+            age: 10,
+            friend: &#123;
+                name: &#39;jack&#39;,
+                hobby: &#39;热爱学习&#39;
+            &#125;
+        &#125;
+    &#125;)
+&lt;/script&gt;
+</code></pre>
+<h4 id="1-3-结果展示"><a href="#1-3-结果展示" class="headerlink" title="1.3 结果展示"></a>1.3 结果展示</h4><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/Vue%E5%AE%9E%E4%BE%8B.png" alt="Vue实例"></p>
+<h3 id="二：插值表达式"><a href="#二：插值表达式" class="headerlink" title="二：插值表达式"></a>二：插值表达式</h3><p><strong>作用</strong>：利用 表达式 进行插<strong>值</strong>渲染<br><strong>语法</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; 表达式 &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意点</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.使用的数据要存在（在Vue实例的data中存在此数据）</span><br><span class="line">2.支持的是表达式，不是语句 if for...</span><br><span class="line">3.不能在标签属性中使用 &#123;&#123; &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>案例</strong></p>
+<pre><code>&lt;div&gt;&#123;&#123; name+'先生' &#125;&#125;&lt;/div&gt;
+&lt;p&gt;&#123;&#123; friend.name &#125;&#125;&lt;/p&gt;
+&lt;p&gt;&#123;&#123; age>=18 ? '成年' : '未成年' &#125;&#125;&lt;/p&gt;
+&lt;p&gt;&#123;&#123; age &#125;&#125;&lt;/p&gt;
+</code></pre>
+<h1 id="2、Vu2常用指令篇"><a href="#2、Vu2常用指令篇" class="headerlink" title="2、Vu2常用指令篇"></a>2、Vu2常用指令篇</h1><h3 id="2-1：v-html-表达式渲染"><a href="#2-1：v-html-表达式渲染" class="headerlink" title="2.1：v-html 表达式渲染"></a>2.1：v-html 表达式渲染</h3><p><strong>语法</strong>：v-html&#x3D;”表达式”</p>
+<p><strong>用途</strong>：动态设置元素 innerHTML</p>
+<p><strong>案例</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">     &lt;div v-html=&quot;msg&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script src=&quot;https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    const app = new Vue(&#123;</span><br><span class="line">       el: &#x27;#app&#x27;,</span><br><span class="line">       data: &#123;</span><br><span class="line">          msg: `</span><br><span class="line">             &lt;a href=&quot;https://www.bilibili.com&quot;&gt;</span><br><span class="line">                 哔哩哔哩</span><br><span class="line">             &lt;/a&gt;</span><br><span class="line">          `</span><br><span class="line">       &#125;</span><br><span class="line">     &#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>结果展示</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/v-html.png"></p>
+<h3 id="2-2：v-show"><a href="#2-2：v-show" class="headerlink" title="2.2：v-show"></a>2.2：v-show</h3><p><strong>语法</strong>：v-show &#x3D; “表达式”&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;表达式值&ensp;true表示显示，false表示隐藏</p>
+<p><strong>作用</strong>：控制元素显示隐藏</p>
+<p><strong>底层原理</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">切换 css 的 display: none 来控制显示隐藏</span><br></pre></td></tr></table></figure>
+
+<p><strong>应用场景</strong>：频繁进行切换显示隐藏的地方</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/v-show.png"></p>
+<p><strong>案例</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;div v-show=&quot;msg&quot;&gt;v-show盒子&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script src=&quot;https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    const app = new Vue(&#123;</span><br><span class="line">        el: &#x27;#app&#x27;,</span><br><span class="line">        data: &#123;</span><br><span class="line">            msg: true 		//true表示显示</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>结果展示</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/v-show%E5%B1%95%E7%A4%BA1.png" alt="true显示"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/v-show%E5%B1%95%E7%A4%BA2.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;div v-show=&quot;msg&quot;&gt;v-show盒子&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script src=&quot;https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">   const app = new Vue(&#123;</span><br><span class="line">       el: &#x27;#app&#x27;,</span><br><span class="line">       data: &#123;</span><br><span class="line">          msg: false		//false表示隐藏</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>结果展示</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/v-show%E5%B1%95%E7%A4%BA3.png" alt="false隐藏"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/v-show%E5%B1%95%E7%A4%BA4.png"></p>
+<h3 id="2-3：v-if-ensp-ensp-v-else-if-ensp-ensp-v-else判断"><a href="#2-3：v-if-ensp-ensp-v-else-if-ensp-ensp-v-else判断" class="headerlink" title="2.3：v-if&ensp;&ensp;v-else-if&ensp;&ensp;v-else判断"></a>2.3：v-if&ensp;&ensp;v-else-if&ensp;&ensp;v-else判断</h3><p><strong>作用</strong>：进行判断渲染的作用</p>
+<p><strong>案例</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;div v-if=&quot;gender === 1&quot;&gt;性别：男&lt;/div&gt;</span><br><span class="line">    &lt;div v-else&gt;性别：女&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div v-if=&quot;rank === &#x27;A&#x27; &quot;&gt;名次A&lt;/div&gt;</span><br><span class="line">    &lt;div v-else-if=&quot;rank === &#x27;B&#x27; &quot;&gt;名次B&lt;/div&gt;</span><br><span class="line">    &lt;div v-else&gt;名次C&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script src=&quot;https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    const app = new Vue(&#123;</span><br><span class="line">        el: &#x27;#app&#x27;,</span><br><span class="line">        data: &#123;</span><br><span class="line">            gender: 1,</span><br><span class="line">            rank: &#x27;B&#x27;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>结果展示</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E5%88%A4%E6%96%AD%E5%B1%95%E7%A4%BA.png"></p>
+<h3 id="2-4：v-on【-事件名】"><a href="#2-4：v-on【-事件名】" class="headerlink" title="2.4：v-on【@事件名】"></a>2.4：v-on【@事件名】</h3><p><strong>用途</strong>：事件绑定</p>
+<p><strong>语法</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">完整写法：</span><br><span class="line">	1.v-on:事件名=&quot;内联语法&quot;</span><br><span class="line">	2.v-on:事件名=&quot;methods中的函数名&quot;</span><br><span class="line">简写：✔</span><br><span class="line">	1.@事件名=&quot;内联语法&quot;</span><br><span class="line">	2.@事件名=&quot;methods中的函数名&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>说明</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1.事件名：</span><br><span class="line">	点击：click</span><br><span class="line">	鼠标经过：mouseenter</span><br><span class="line">	获得焦点：focus</span><br><span class="line">	...</span><br><span class="line"></span><br><span class="line">2.this：指的是当前案例</span><br></pre></td></tr></table></figure>
+
+<p><strong>数字加减案例</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;button @click=&quot;number--&quot;&gt;-&lt;/button&gt;</span><br><span class="line">    &lt;span&gt;&#123;&#123; number &#125;&#125;&lt;/span&gt;</span><br><span class="line">    &lt;button @click=&quot;number++&quot;&gt;+&lt;/button&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script src=&quot;https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    const app = new Vue(&#123;</span><br><span class="line">        el: &#x27;#app&#x27;,</span><br><span class="line">        data: &#123;</span><br><span class="line">            number: 100</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-5：v-for"><a href="#2-5：v-for" class="headerlink" title="2.5：v-for"></a>2.5：v-for</h3><p><strong>作用</strong>：多次渲染整个元素，可以是数组，对象，数字…..</p>
+<p><strong>语法</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">v-for=&quot;(item,index) in 数组&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：item是每一项，index是下标</p>
+<p><strong>图书案例</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;h2&gt;图书&lt;/h2&gt;</span><br><span class="line">    &lt;ul&gt;</span><br><span class="line">        &lt;li v-for=&quot;(item,index) in list&quot; :key=&quot;item.id&quot;&gt;</span><br><span class="line">            &lt;span&gt;&#123;&#123; item.name &#125;&#125;&lt;/span&gt;</span><br><span class="line">            &lt;span&gt;&#123;&#123; item.author &#125;&#125;&lt;/span&gt;</span><br><span class="line">            &lt;button @click=&quot;del(item.id)&quot;&gt;删除&lt;/button&gt;</span><br><span class="line">        &lt;/li&gt;</span><br><span class="line">    &lt;/ul&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script src=&quot;https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    const app = new Vue(&#123;</span><br><span class="line">        el: &#x27;#app&#x27;,</span><br><span class="line">        data: &#123;</span><br><span class="line">            list: [</span><br><span class="line">                &#123;id:1,name:&#x27;《鲁滨逊漂流记》&#x27;,author: &#x27;笛福&#x27;&#125;,</span><br><span class="line">                &#123;id:2,name: &#x27;《红楼梦》&#x27;,author: &#x27;曹雪芹&#x27;&#125;,</span><br><span class="line">                &#123;id:3,name: &#x27;《西游记》&#x27;,author: &#x27;吴承恩&#x27;&#125;,</span><br><span class="line">                &#123;id:4,name: &#x27;《罗密欧与朱丽叶》&#x27;,author: &#x27;莎士比亚&#x27;&#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;,</span><br><span class="line">        methods: &#123;</span><br><span class="line">            del(id)&#123;</span><br><span class="line">                this.list = this.list.filter(item =&gt; item.id !== id)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>结果展示</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/v-for.png"></p>
+<p><strong>追加说明：v-for中的key</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;li v-for=&quot;(item,index) in list&quot; :key=&quot;item.id&quot;&gt;</span><br><span class="line">     &lt;span&gt;&#123;&#123; item.name &#125;&#125;&lt;/span&gt;</span><br><span class="line">     &lt;span&gt;&#123;&#123; item.author &#125;&#125;&lt;/span&gt;</span><br><span class="line">     &lt;button @click=&quot;del(index)&quot;&gt;删除&lt;/button&gt;</span><br><span class="line">&lt;/li&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>语法：</strong>:key&#x3D;”唯一标识”</p>
+<p><strong>用途：</strong>便于Vue进行列表项的正确排序复用</p>
+<p><strong>注意点</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.key只能是 字符串类型 或 数字类型</span><br><span class="line">2.具有唯一性，通常使用 id 作为 key，不推荐index作为key（会发生变化，无法对应）</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-6：v-model-数据双向绑定"><a href="#2-6：v-model-数据双向绑定" class="headerlink" title="2.6：v-model 数据双向绑定"></a>2.6：v-model 数据双向绑定</h3><p><strong>语法</strong>：v-model&#x3D;”变量”</p>
+<p><strong>作用</strong>：可以让数据和视图进行<strong>双向数据绑定</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">何为双向数据绑定？</span><br><span class="line">（1）数据改变，视图自动更新</span><br><span class="line">（2）视图改变，数据自动更新</span><br></pre></td></tr></table></figure>
+
+<p><strong>目的</strong>：可以快速【获取】和【设置】表单元素的内容</p>
+<h3 id="2-7：v-bind【-属性名】"><a href="#2-7：v-bind【-属性名】" class="headerlink" title="2.7：v-bind【:属性名】"></a>2.7：v-bind【:属性名】</h3><p><strong>用途</strong>：动态设置html中的标签属性，如src[来源]，href，title…</p>
+<p><strong>语法</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">完整写法：</span><br><span class="line">	v-bind:属性名=&quot;表达式&quot;</span><br><span class="line">简写：✔</span><br><span class="line">	:属性名=&quot;表达式&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>案例</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;button v-show=&quot;index &gt; 0&quot; @click=&quot;index--&quot;&gt;上一页&lt;/button&gt;</span><br><span class="line">    &lt;img :src=&quot;list[index]&quot;&gt;</span><br><span class="line">    &lt;button v-show=&quot;index &lt; list.length-1&quot; @click=&quot;index++&quot;&gt;下一页&lt;/button&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script src=&quot;https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    const app = new Vue(&#123;</span><br><span class="line">        el: &#x27;#app&#x27;,</span><br><span class="line">        data: &#123;</span><br><span class="line">            index: 0,</span><br><span class="line">            list: [</span><br><span class="line">                &#x27;./imgs/01.png&#x27;,</span><br><span class="line">                &#x27;./imgs/02.png&#x27;,</span><br><span class="line">                &#x27;./imgs/03.jpg&#x27;</span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-8：动态class，style"><a href="#2-8：动态class，style" class="headerlink" title="2.8：动态class，style"></a>2.8：动态class，style</h3><h4 id="动态class讲解"><a href="#动态class讲解" class="headerlink" title="动态class讲解"></a>动态class讲解</h4><p><strong>基本格式</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:class = &quot;&#123;&#x27;样例类&#x27;: 条件判断式|数据属性名称 &#125;&quot;</span><br></pre></td></tr></table></figure>
+
+<h4 id="动态style讲解"><a href="#动态style讲解" class="headerlink" title="动态style讲解"></a>动态style讲解</h4><p><strong>基本格式</strong></p>
+<p>凡是有-的style属性名都要变成驼峰式，比如font-size要变成fontSize</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:style=&quot;&#123; 样例类: 三元运算|数据属性名称 &#125;&quot;</span><br></pre></td></tr></table></figure>
+
+<h4 id="具体案例讲解"><a href="#具体案例讲解" class="headerlink" title="具体案例讲解"></a>具体案例讲解</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</span><br><span class="line">    &lt;title&gt;Document&lt;/title&gt;</span><br><span class="line">    &lt;style&gt;</span><br><span class="line">    	// 样例类</span><br><span class="line">        .active&#123;</span><br><span class="line">            color: red;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">        &lt;div style=&quot;display: flex;&quot;&gt;</span><br><span class="line">            &lt;select v-model=&quot;currentMenu&quot;&gt;</span><br><span class="line">                &lt;option value=&quot;首页&quot;&gt;首页&lt;/option&gt;</span><br><span class="line">                &lt;option value=&quot;教师信息&quot;&gt;教师信息&lt;/option&gt;</span><br><span class="line">                &lt;option value=&quot;学生信息&quot;&gt;学生信息&lt;/option&gt;</span><br><span class="line">            &lt;/select&gt;</span><br><span class="line">            &lt;div </span><br><span class="line">            	style=&quot;padding: 0 10px;&quot; </span><br><span class="line">            	:style=&quot;&#123; fontSize: item === currentMenu ? &#x27;20px&#x27; : &#x27;14px&#x27; &#125;&quot;  //动态style</span><br><span class="line">            	:class=&quot;&#123;&#x27;active&#x27;: item === currentMenu &#125;&quot;  // 动态class</span><br><span class="line">            	v-for=&quot;item in menus&quot; </span><br><span class="line">            	:key=&quot;item&quot;&gt;</span><br><span class="line">            		&#123;&#123; item &#125;&#125;</span><br><span class="line">            	&lt;/div&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">        </span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        const app = new Vue(&#123;</span><br><span class="line">            el: &#x27;#app&#x27;,</span><br><span class="line">            data: &#123;</span><br><span class="line">            	// 数据属性名称</span><br><span class="line">                menus: [&#x27;首页&#x27;,&#x27;教师信息&#x27;,&#x27;学生信息&#x27;],</span><br><span class="line">                currentMenu: &#x27;首页&#x27;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E5%8A%A8%E6%80%81classstyle.png"></p>
+<h1 id="3、Vue2生命周期"><a href="#3、Vue2生命周期" class="headerlink" title="3、Vue2生命周期"></a>3、Vue2生命周期</h1><h3 id="（1）初始化阶段"><a href="#（1）初始化阶段" class="headerlink" title="（1）初始化阶段"></a>（1）初始化阶段</h3><h4 id="beforeCreate（）"><a href="#beforeCreate（）" class="headerlink" title="beforeCreate（）"></a>beforeCreate（）</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">生命周期中第一个函数，在该函数执行时Vue实例仅仅完成自身事件绑定和生命周期函数的初始化工作，Vue实例中还没有Data，el，methods相关属性。</span><br></pre></td></tr></table></figure>
+
+<h4 id="created（）✔"><a href="#created（）✔" class="headerlink" title="created（）✔"></a>created（）✔</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">生命周期的第二个函数，在该函数执行时Vue实例已经初始化data属性和methods中相关方法，</span><br><span class="line">可以在此阶段【调取后端数据】</span><br></pre></td></tr></table></figure>
+
+<h4 id="beforeMount（）"><a href="#beforeMount（）" class="headerlink" title="beforeMount（）"></a>beforeMount（）</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">生命周期的第三个函数，在该函数进行模板编译，生成虚拟dom</span><br></pre></td></tr></table></figure>
+
+<h4 id="mounted（）✔"><a href="#mounted（）✔" class="headerlink" title="mounted（）✔"></a>mounted（）✔</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">生命周期的第四个函数，在该函数将数据渲染到页面上，生成真实dom</span><br></pre></td></tr></table></figure>
+
+<h3 id="（2）运行阶段"><a href="#（2）运行阶段" class="headerlink" title="（2）运行阶段"></a>（2）运行阶段</h3><h4 id="beforeUpdate（）"><a href="#beforeUpdate（）" class="headerlink" title="beforeUpdate（）"></a>beforeUpdate（）</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">生命周期的第五个函数，数据更新时触发该函数，该函数执行时Vue实例中data数据变化，但页面数据仍为旧数据，即data数据与页面数据不同步</span><br></pre></td></tr></table></figure>
+
+<h4 id="updated（）"><a href="#updated（）" class="headerlink" title="updated（）"></a>updated（）</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">生命周期的第六个函数，数据更新触发，但时机点位于beforeUpdated后，此时页面数据与Vue实例中data数据能够保持一致。</span><br></pre></td></tr></table></figure>
+
+<h3 id="（3）销毁阶段"><a href="#（3）销毁阶段" class="headerlink" title="（3）销毁阶段"></a>（3）销毁阶段</h3><h4 id="beforeDestory（）"><a href="#beforeDestory（）" class="headerlink" title="beforeDestory（）"></a>beforeDestory（）</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">生命周期的第七个函数，该函数执行时，Vue实例中所有数据、methods、component还未销毁</span><br></pre></td></tr></table></figure>
+
+<h4 id="destoryd（）"><a href="#destoryd（）" class="headerlink" title="destoryd（）"></a>destoryd（）</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">生命周期的第八个函数，该函数执行时，Vue实例彻底销毁</span><br></pre></td></tr></table></figure>
+
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://frimiku.github.io">Frimiku</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://frimiku.github.io/2024/02/06/%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA1%E4%B9%8BVue2%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86/">https://frimiku.github.io/2024/02/06/%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA1%E4%B9%8BVue2%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://frimiku.github.io" target="_blank">Frimiku` Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Web%E5%89%8D%E7%AB%AF/">Web前端</a><a class="post-meta__tags" href="/tags/Vue2/">Vue2</a></div><div class="post_share"><div class="social-share" data-image="https://gitee.com/LemonWorld/picture/raw/master/img/%E9%BE%99%E4%B8%8E%E5%88%9D%E9%9F%B3%E6%9C%AA%E6%9D%A5.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/02/05/Git%E6%95%99%E7%A8%8B(%E4%BB%8E0%E5%88%B01)/" title="Git教程(从0到1)"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E7%A7%8B%E5%A4%A9%E6%99%AF%E8%B1%A1.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Git教程(从0到1)</div></div></a></div><div class="next-post pull-right"><a href="/2024/02/19/%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA7%E4%B9%8BElementUI(Vue2)/" title="Vue2之ElementUI"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E7%A0%B4%E7%A2%8E%E5%B0%8F%E5%B1%8B.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Vue2之ElementUI</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/02/04/%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA2%E4%B9%8BVue2%E8%84%9A%E6%89%8B%E6%9E%B6%E6%90%AD%E5%BB%BA/" title="Vue脚手架搭建"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E4%B8%9C%E4%BA%AC%E9%A3%9F%E5%B0%B8%E9%AC%BC.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-04</div><div class="title">Vue脚手架搭建</div></div></a></div><div><a href="/2024/05/15/%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA5%E4%B9%8B%E5%89%8D%E5%90%8E%E7%AB%AF%E4%BA%A4%E4%BA%92(Vue2)/" title="Vue2之前后端交互"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E9%BE%99%E4%B8%8E%E5%88%9D%E9%9F%B3%E6%9C%AA%E6%9D%A5.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-05-15</div><div class="title">Vue2之前后端交互</div></div></a></div><div><a href="/2024/02/19/%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA7%E4%B9%8BElementUI(Vue2)/" title="Vue2之ElementUI"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E7%A0%B4%E7%A2%8E%E5%B0%8F%E5%B1%8B.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-19</div><div class="title">Vue2之ElementUI</div></div></a></div><div><a href="/2024/05/19/%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA8%E4%B9%8B%E7%99%BB%E5%BD%95%E6%B3%A8%E5%86%8C%E9%A1%B5%E9%9D%A2/" title="项目搭建之登录注册页面"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E8%81%9A%E4%BC%9A.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-05-19</div><div class="title">项目搭建之登录注册页面</div></div></a></div><div><a href="/2024/04/29/%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA9%E4%B9%8BJWT%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81/" title="项目搭建之JWT权限验证"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E8%9D%B4%E8%9D%B6.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-29</div><div class="title">项目搭建之JWT权限验证</div></div></a></div><div><a href="/2024/06/10/%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA10%E4%B9%8B%E5%A4%9A%E8%A7%92%E8%89%B2%E7%99%BB%E5%BD%95+%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF%E6%90%AD%E5%BB%BA/" title="项目搭建9之多角色登录+用户信息搭建"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E9%9D%92.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-06-10</div><div class="title">项目搭建9之多角色登录+用户信息搭建</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/./others/imgs/sanjiu.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Frimiku</div><div class="author-info__description">一个技术宅的博客</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">58</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">24</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Frimiku"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Frimiku" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到 Frimiku`Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1%E3%80%81Vue2%E5%9F%BA%E7%A1%80%E7%AF%87"><span class="toc-number">1.</span> <span class="toc-text">1、Vue2基础篇</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%EF%BC%9A%E5%88%9B%E5%BB%BAVue2%E5%AE%9E%E4%BE%8B%E3%80%90%E4%BD%93%E9%AA%8C%E3%80%91"><span class="toc-number">1.0.1.</span> <span class="toc-text">一：创建Vue2实例【体验】</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E5%9F%BA%E6%9C%AC%E5%87%86%E5%A4%87"><span class="toc-number">1.0.1.1.</span> <span class="toc-text">1.1 基本准备</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-%E5%AE%9E%E9%99%85%E6%93%8D%E4%BD%9C"><span class="toc-number">1.0.1.2.</span> <span class="toc-text">1.2 实际操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-%E7%BB%93%E6%9E%9C%E5%B1%95%E7%A4%BA"><span class="toc-number">1.0.1.3.</span> <span class="toc-text">1.3 结果展示</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%EF%BC%9A%E6%8F%92%E5%80%BC%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">1.0.2.</span> <span class="toc-text">二：插值表达式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2%E3%80%81Vu2%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4%E7%AF%87"><span class="toc-number">2.</span> <span class="toc-text">2、Vu2常用指令篇</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1%EF%BC%9Av-html-%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B8%B2%E6%9F%93"><span class="toc-number">2.0.1.</span> <span class="toc-text">2.1：v-html 表达式渲染</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2%EF%BC%9Av-show"><span class="toc-number">2.0.2.</span> <span class="toc-text">2.2：v-show</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3%EF%BC%9Av-if-ensp-ensp-v-else-if-ensp-ensp-v-else%E5%88%A4%E6%96%AD"><span class="toc-number">2.0.3.</span> <span class="toc-text">2.3：v-if  v-else-if  v-else判断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4%EF%BC%9Av-on%E3%80%90-%E4%BA%8B%E4%BB%B6%E5%90%8D%E3%80%91"><span class="toc-number">2.0.4.</span> <span class="toc-text">2.4：v-on【@事件名】</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5%EF%BC%9Av-for"><span class="toc-number">2.0.5.</span> <span class="toc-text">2.5：v-for</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6%EF%BC%9Av-model-%E6%95%B0%E6%8D%AE%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A"><span class="toc-number">2.0.6.</span> <span class="toc-text">2.6：v-model 数据双向绑定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-7%EF%BC%9Av-bind%E3%80%90-%E5%B1%9E%E6%80%A7%E5%90%8D%E3%80%91"><span class="toc-number">2.0.7.</span> <span class="toc-text">2.7：v-bind【:属性名】</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-8%EF%BC%9A%E5%8A%A8%E6%80%81class%EF%BC%8Cstyle"><span class="toc-number">2.0.8.</span> <span class="toc-text">2.8：动态class，style</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A8%E6%80%81class%E8%AE%B2%E8%A7%A3"><span class="toc-number">2.0.8.1.</span> <span class="toc-text">动态class讲解</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A8%E6%80%81style%E8%AE%B2%E8%A7%A3"><span class="toc-number">2.0.8.2.</span> <span class="toc-text">动态style讲解</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B7%E4%BD%93%E6%A1%88%E4%BE%8B%E8%AE%B2%E8%A7%A3"><span class="toc-number">2.0.8.3.</span> <span class="toc-text">具体案例讲解</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3%E3%80%81Vue2%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">3.</span> <span class="toc-text">3、Vue2生命周期</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%881%EF%BC%89%E5%88%9D%E5%A7%8B%E5%8C%96%E9%98%B6%E6%AE%B5"><span class="toc-number">3.0.1.</span> <span class="toc-text">（1）初始化阶段</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#beforeCreate%EF%BC%88%EF%BC%89"><span class="toc-number">3.0.1.1.</span> <span class="toc-text">beforeCreate（）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#created%EF%BC%88%EF%BC%89%E2%9C%94"><span class="toc-number">3.0.1.2.</span> <span class="toc-text">created（）✔</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#beforeMount%EF%BC%88%EF%BC%89"><span class="toc-number">3.0.1.3.</span> <span class="toc-text">beforeMount（）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mounted%EF%BC%88%EF%BC%89%E2%9C%94"><span class="toc-number">3.0.1.4.</span> <span class="toc-text">mounted（）✔</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%882%EF%BC%89%E8%BF%90%E8%A1%8C%E9%98%B6%E6%AE%B5"><span class="toc-number">3.0.2.</span> <span class="toc-text">（2）运行阶段</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#beforeUpdate%EF%BC%88%EF%BC%89"><span class="toc-number">3.0.2.1.</span> <span class="toc-text">beforeUpdate（）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#updated%EF%BC%88%EF%BC%89"><span class="toc-number">3.0.2.2.</span> <span class="toc-text">updated（）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%883%EF%BC%89%E9%94%80%E6%AF%81%E9%98%B6%E6%AE%B5"><span class="toc-number">3.0.3.</span> <span class="toc-text">（3）销毁阶段</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#beforeDestory%EF%BC%88%EF%BC%89"><span class="toc-number">3.0.3.1.</span> <span class="toc-text">beforeDestory（）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#destoryd%EF%BC%88%EF%BC%89"><span class="toc-number">3.0.3.2.</span> <span class="toc-text">destoryd（）</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/29/Java%E4%B9%8B%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/" title="无题">无题</a><time datetime="2024-07-29T13:24:07.400Z" title="发表于 2024-07-29 21:24:07">2024-07-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/29/Hive%E4%B9%8B%E6%89%A9%E5%B1%95%E5%87%BD%E6%95%B0(UDF)/" title="无题">无题</a><time datetime="2024-07-29T13:24:07.397Z" title="发表于 2024-07-29 21:24:07">2024-07-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/29/Hive%E8%A1%A8%E3%80%90%E6%B1%87%E6%80%BB%E3%80%91/" title="Hive表【汇总】"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E6%9F%8A%E7%AD%B1%E5%A8%85.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hive表【汇总】"/></a><div class="content"><a class="title" href="/2024/07/29/Hive%E8%A1%A8%E3%80%90%E6%B1%87%E6%80%BB%E3%80%91/" title="Hive表【汇总】">Hive表【汇总】</a><time datetime="2024-07-29T13:24:07.388Z" title="发表于 2024-07-29 21:24:07">2024-07-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/28/music/" title="music">music</a><time datetime="2024-07-28T08:07:05.000Z" title="发表于 2024-07-28 16:07:05">2024-07-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/17/Mysql%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E3%80%90%E8%99%9A%E6%8B%9F%E6%9C%BA%E3%80%91/" title="Mysql一键安装【虚拟机】"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gitee.com/LemonWorld/picture/raw/master/img/%E9%AC%BC%E7%81%AD.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Mysql一键安装【虚拟机】"/></a><div class="content"><a class="title" href="/2024/07/17/Mysql%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E3%80%90%E8%99%9A%E6%8B%9F%E6%9C%BA%E3%80%91/" title="Mysql一键安装【虚拟机】">Mysql一键安装【虚拟机】</a><time datetime="2024-07-16T16:00:00.000Z" title="发表于 2024-07-17 00:00:00">2024-07-17</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://gitee.com/LemonWorld/picture/raw/master/img/%E9%BE%99%E4%B8%8E%E5%88%9D%E9%9F%B3%E6%9C%AA%E6%9D%A5.png')"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2024 By Frimiku</div><div class="footer_custom_text">welcome to <a href="https://frimiku.github.io/">Frimiku</a>'s Blog!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"><script>(() => {
+  const initValine = () => {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'lmEQpOsJf8mT3BIGHZZ7EDq4-gzGzoHsz',
+      appKey: '7APMLg7dJeJb0sE6hHymEyaY',
+      avatar: 'monsterid',
+      serverURLs: '7frkCVvvwQAZBPCcjmeKotvz',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: true
+    }, null))
+  }
+
+  const loadValine = async () => {
+    if (typeof Valine === 'function') initValine()
+    else {
+      await getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js')
+      initValine()
+    }
+  }
+
+  if ('Valine' === 'Valine' || !false) {
+    if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+    else setTimeout(loadValine, 0)
+  } else {
+    window.loadOtherComment = loadValine
+  }
+})()</script></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><div class="aplayer no-destroy" data-id="496869422" data-server="netease" data-type="song" data-fixed="true" data-autoplay="true"> </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"]):not([href="/movies/"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '1.5s');
+    arr[i].setAttribute('data-wow-delay', '200ms');
+    arr[i].setAttribute('data-wow-offset', '30');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '200ms');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('flink-list-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__flipInY');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('flink-list-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__animated');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('article-sort-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__slideInRight');
+    arr[i].setAttribute('data-wow-duration', '1.5s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('site-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__flipInY');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('site-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__animated');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://cdn.cbd.int/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://cdn.cbd.int/hexo-butterfly-wowjs/lib/wow_init.js"></script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v6.2.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v4.3.1" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" data-title="本站采用多线部署，主线路托管于Vercel" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="https://npm.elemecdn.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.js"></script><script data-pjax>
+    function butterfly_categories_card_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<style>li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: 190px;overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: 160px;}}</style><div class="recent-post-item" style="height:auto;width:100%;padding:0px;"><div id="categoryBar"><ul class="categoryBar-list"><li class="categoryBar-list-item" style="background:url(./others/imgs/磁贴1.png);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/学习主线/&quot;);" href="javascript:void(0);">学习主线</a><span class="categoryBar-list-count">45</span><span class="categoryBar-list-descr">Hadoop</span></li><li class="categoryBar-list-item" style="background:url(./others/imgs/磁贴2.png);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/categories/&quot;);" href="javascript:void(0);">categories</a><span class="categoryBar-list-count">1</span><span class="categoryBar-list-descr">Java</span></li><li class="categoryBar-list-item" style="background:url(./others/imgs/磁贴3.png);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/学习支线/&quot;);" href="javascript:void(0);">学习支线</a><span class="categoryBar-list-count">9</span><span class="categoryBar-list-descr">SpringBoot</span></li></ul></div></div>';
+      console.log('已挂载butterfly_categories_card')
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    butterfly_categories_card_injector_config()
+    }
+  </script><!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":"fasle"},"log":false});</script></body></html>
