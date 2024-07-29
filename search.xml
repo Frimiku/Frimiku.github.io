@@ -61,7 +61,7 @@
       <link href="/2024/07/28/music/"/>
       <url>/2024/07/28/music/</url>
       
-        <content type="html"><![CDATA[    <div id="aplayer-cnPmVBjg" class="aplayer aplayer-tag-marker meting-tag-marker"         data-id="7598312909" data-server="netease" data-type="playlist" data-mode="circulation" data-autoplay="false" data-mutex="true" data-listmaxheight="340px" data-preload="auto" data-theme="#3F51B5"    ></div>]]></content>
+        <content type="html"><![CDATA[    <div id="aplayer-xGdegBof" class="aplayer aplayer-tag-marker meting-tag-marker"         data-id="7598312909" data-server="netease" data-type="playlist" data-mode="circulation" data-autoplay="false" data-mutex="true" data-listmaxheight="340px" data-preload="auto" data-theme="#3F51B5"    ></div>]]></content>
       
       
       
@@ -1231,6 +1231,37 @@
     
     
     <entry>
+      <title>大数据之Hadoop（MapReduce过程详解）</title>
+      <link href="/2024/01/17/MapReduce%E8%BF%87%E7%A8%8B%E8%AE%B2%E8%A7%A3/"/>
+      <url>/2024/01/17/MapReduce%E8%BF%87%E7%A8%8B%E8%AE%B2%E8%A7%A3/</url>
+      
+        <content type="html"><![CDATA[<h1 id="MapReduce过程图"><a href="#MapReduce过程图" class="headerlink" title="MapReduce过程图"></a>MapReduce过程图</h1><p><img src="https://gitee.com/LemonWorld/picture/raw/master/img/1-hadoop-mapreduce.png"></p><h1 id="MapReduce过程讲解"><a href="#MapReduce过程讲解" class="headerlink" title="MapReduce过程讲解"></a>MapReduce过程讲解</h1><pre><code>Mapper：    1.RecordReader调用read()来读切片的一行：    2.读到的一行，以LongWritable为键,Text为值；传到Mapper端的map方法中    4.根据业务需求，对Text值进行解析，处理    5.处理完数据后，通过context.write(),将数据送至OutPutCollector中去    6.OutputFormat将数据送到环形缓冲区内    【环形缓冲区默认的大小为100兆】    连续存储，达到【存储总量的80%】时,进行【写盘】操作。    写盘时,会进行两个操作：        先进行【分区】：保证分区为有序的  =&gt;  每个map中分区数量由 job.setNumReduceTasks 决定        再进行【排序】：在同一个分区中，保证键为升序排序  =&gt;  排序方法：快速排序    最后溢出，形成一个小文件，即：写盘操作    ------------------------------------------------------------------------------------    重复过程：        随着RecordReader一行一行的读取,map方法一行一行的处理,环形缓冲区溢出一个一个的小文件        最终：            Mapper端处理结束后，Mapper端会有N个小文件。            【每一个小文件都是分区有序，统一分区内按照键按升序排序的】    ------------------------------------------------------------------------------------    7.将小文件合并为大文件：        合并前：单个小文件分区有序，分区内有序                |                |【归并排序：基于已有序的小文件的同分区合并】                |        合并后：大文件按分区合并。最终分区有序,分区内有序                                    shuffle：    8.每一个Reducer根据自己的分区号，从各个Mapper端中拷贝属于这个分区的数据到Reducer端本地磁盘中。                            Reducer：    9.每个Reducer端,将文件合并起来。        按照【键】进行升序排序  =&gt;  归并排序    10.对文件根据key进行分组,形成一对多的关系:reduce(key,values)    11.根据需求,对其进行聚合操作(例如求和、计数、平均值等),        数据形成了一对一的关系，即每个键对应一个聚合后的值。        通过context.write()，将数据OutPutFormat中去    12.通过OutPutFormat,批量向磁盘中写，形成最终结果：part-r-000000</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 学习主线 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 大数据 </tag>
+            
+            <tag> hadoop </tag>
+            
+            <tag> 离线数仓 </tag>
+            
+            <tag> MapReduce </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>MapReduce之Java端操作（词频统计）</title>
       <link href="/2024/01/17/MapReduce%E4%B9%8BJava%E7%AB%AF%E6%93%8D%E4%BD%9C/"/>
       <url>/2024/01/17/MapReduce%E4%B9%8BJava%E7%AB%AF%E6%93%8D%E4%BD%9C/</url>
@@ -1249,38 +1280,7 @@
             
             <tag> 大数据 </tag>
             
-            <tag> hadoop </tag>
-            
-            <tag> 离线数仓 </tag>
-            
             <tag> Java </tag>
-            
-            <tag> MapReduce </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>大数据之Hadoop（MapReduce过程详解）</title>
-      <link href="/2024/01/17/MapReduce%E8%BF%87%E7%A8%8B%E8%AE%B2%E8%A7%A3/"/>
-      <url>/2024/01/17/MapReduce%E8%BF%87%E7%A8%8B%E8%AE%B2%E8%A7%A3/</url>
-      
-        <content type="html"><![CDATA[<h1 id="MapReduce过程图"><a href="#MapReduce过程图" class="headerlink" title="MapReduce过程图"></a>MapReduce过程图</h1><p><img src="https://gitee.com/LemonWorld/picture/raw/master/img/1-hadoop-mapreduce.png"></p><h1 id="MapReduce过程讲解"><a href="#MapReduce过程讲解" class="headerlink" title="MapReduce过程讲解"></a>MapReduce过程讲解</h1><pre><code>Mapper：    1.RecordReader调用read()来读切片的一行：    2.读到的一行，以LongWritable为键,Text为值；传到Mapper端的map方法中    4.根据业务需求，对Text值进行解析，处理    5.处理完数据后，通过context.write(),将数据送至OutPutCollector中去    6.OutputFormat将数据送到环形缓冲区内    【环形缓冲区默认的大小为100兆】    连续存储，达到【存储总量的80%】时,进行【写盘】操作。    写盘时,会进行两个操作：        先进行【分区】：保证分区为有序的  =&gt;  每个map中分区数量由 job.setNumReduceTasks 决定        再进行【排序】：在同一个分区中，保证键为升序排序  =&gt;  排序方法：快速排序    最后溢出，形成一个小文件，即：写盘操作    ------------------------------------------------------------------------------------    重复过程：        随着RecordReader一行一行的读取,map方法一行一行的处理,环形缓冲区溢出一个一个的小文件        最终：            Mapper端处理结束后，Mapper端会有N个小文件。            【每一个小文件都是分区有序，统一分区内按照键按升序排序的】    ------------------------------------------------------------------------------------    7.将小文件合并为大文件：        合并前：单个小文件分区有序，分区内有序                |                |【归并排序：基于已有序的小文件的同分区合并】                |        合并后：大文件按分区合并。最终分区有序,分区内有序                                    shuffle：    8.每一个Reducer根据自己的分区号，从各个Mapper端中拷贝属于这个分区的数据到Reducer端本地磁盘中。                            Reducer：    9.每个Reducer端,将文件合并起来。        按照【键】进行升序排序  =&gt;  归并排序    10.对文件根据key进行分组,形成一对多的关系:reduce(key,values)    11.根据需求,对其进行聚合操作(例如求和、计数、平均值等),        数据形成了一对一的关系，即每个键对应一个聚合后的值。        通过context.write()，将数据OutPutFormat中去    12.通过OutPutFormat,批量向磁盘中写，形成最终结果：part-r-000000</code></pre>]]></content>
-      
-      
-      <categories>
-          
-          <category> 学习主线 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 大数据 </tag>
             
             <tag> hadoop </tag>
             
@@ -1346,11 +1346,11 @@
             
             <tag> HDFS </tag>
             
+            <tag> Java </tag>
+            
             <tag> hadoop </tag>
             
             <tag> 离线数仓 </tag>
-            
-            <tag> Java </tag>
             
         </tags>
       
@@ -1609,17 +1609,6 @@
     
     
     <entry>
-      <title></title>
-      <link href="/css/custom.css"/>
-      <url>/css/custom.css</url>
-      
-        <content type="html"><![CDATA[:root {  --trans-light: rgba(255, 255, 255, 0.75);  --trans-dark: rgba(25, 25, 25, 0.6);  --border-style: 1px solid rgb(169, 169, 169);  --backdrop-filter: blur(5px) saturate(150%);}/* 翻页按钮居中 */#pagination {    width: 100%;    margin: auto;  }/* 一级菜单居中 */#nav .menus_items {  position: absolute !important;  width: fit-content !important;  left: 50% !important;  transform: translateX(-50%) !important;}/* 子菜单横向展示 */#nav .menus_items .menus_item:hover .menus_item_child {  display: flex !important;}/* 这里的2是代表导航栏的第2个元素，即有子菜单的元素，可以按自己需求修改 */.menus_items .menus_item:nth-child(8) .menus_item_child {  left: -38px;}/* 黑夜霓虹灯 *//* 日间模式不生效 */[data-theme="light"] #site-name,[data-theme="light"] #site-title,[data-theme="light"] #site-subtitle,[data-theme="light"] #post-info {  animation: none;}/* 夜间模式生效 */[data-theme="dark"] #site-name,[data-theme="dark"] #site-title {  animation: light_15px 10s linear infinite;}[data-theme="dark"] #site-subtitle {  animation: light_10px 10s linear infinite;}[data-theme="dark"] #post-info {  animation: light_5px 10s linear infinite;}/* 关键帧描述 */@keyframes light_15px {  0% {    text-shadow: #5636ed 0 0 15px;  }  12.5% {    text-shadow: #11ee5e 0 0 15px;  }  25% {    text-shadow: #f14747 0 0 15px;  }  37.5% {    text-shadow: #f1a247 0 0 15px;  }  50% {    text-shadow: #f1ee47 0 0 15px;  }  50% {    text-shadow: #b347f1 0 0 15px;  }  62.5% {    text-shadow: #002afa 0 0 15px;  }  75% {    text-shadow: #ed709b 0 0 15px;  }  87.5% {    text-shadow: #39c5bb 0 0 15px;  }  100% {    text-shadow: #5636ed 0 0 15px;  }}@keyframes light_10px {  0% {    text-shadow: #5636ed 0 0 10px;  }  12.5% {    text-shadow: #11ee5e 0 0 10px;  }  25% {    text-shadow: #f14747 0 0 10px;  }  37.5% {    text-shadow: #f1a247 0 0 10px;  }  50% {    text-shadow: #f1ee47 0 0 10px;  }  50% {    text-shadow: #b347f1 0 0 10px;  }  62.5% {    text-shadow: #002afa 0 0 10px;  }  75% {    text-shadow: #ed709b 0 0 10px;  }  87.5% {    text-shadow: #39c5bb 0 0 10px;  }  100% {    text-shadow: #5636ed 0 0 10px;  }}@keyframes light_5px {  0% {    text-shadow: #5636ed 0 0 5px;  }  12.5% {    text-shadow: #11ee5e 0 0 5px;  }  25% {    text-shadow: #f14747 0 0 5px;  }  37.5% {    text-shadow: #f1a247 0 0 15px;  }  50% {    text-shadow: #f1ee47 0 0 5px;  }  50% {    text-shadow: #b347f1 0 0 5px;  }  62.5% {    text-shadow: #002afa 0 0 5px;  }  75% {    text-shadow: #ed709b 0 0 5px;  }  87.5% {    text-shadow: #39c5bb 0 0 5px;  }  100% {    text-shadow: #5636ed 0 0 5px;  }}/* 背景宇宙星光  */#universe{  display: block;  position: fixed;  margin: 0;  padding: 0;  border: 0;  outline: 0;  left: 0;  top: 0;  width: 100%;  height: 100%;  pointer-events: none;  /* 这个是调置顶的优先级的，-1在文章页下面，背景上面，个人推荐这种 */  z-index: -1;}/* 侧边栏个人信息卡片动态渐变色 */#aside-content > .card-widget.card-info {  background: linear-gradient(    -45deg,    #e8d8b9,    #eccec5,    #a3e9eb,    #bdbdf0,    #eec1ea  );  box-shadow: 0 0 5px rgb(66, 68, 68);  position: relative;  background-size: 400% 400%;  -webkit-animation: Gradient 10s ease infinite;  -moz-animation: Gradient 10s ease infinite;  animation: Gradient 10s ease infinite !important;}@-webkit-keyframes Gradient {  0% {    background-position: 0% 50%;  }  50% {    background-position: 100% 50%;  }  100% {    background-position: 0% 50%;  }}@-moz-keyframes Gradient {  0% {    background-position: 0% 50%;  }  50% {    background-position: 100% 50%;  }  100% {    background-position: 0% 50%;  }}@keyframes Gradient {  0% {    background-position: 0% 50%;  }  50% {    background-position: 100% 50%;  }  100% {    background-position: 0% 50%;  }}/* 黑夜模式适配 */[data-theme="dark"] #aside-content > .card-widget.card-info {  background: #191919ee;}/* 个人信息Follow me按钮 */#aside-content > .card-widget.card-info > #card-info-btn {  background-color: #3eb8be;  border-radius: 8px;}/* 首页文章卡片 */#recent-posts > .recent-post-item {  background: var(--trans-light);  backdrop-filter: var(--backdrop-filter);  border-radius: 25px;  border: var(--border-style);}/* 首页侧栏卡片 */#aside-content .card-widget {  background: var(--trans-light);  backdrop-filter: var(--backdrop-filter);  border-radius: 18px;  border: var(--border-style);}/* 文章页、归档页、普通页面 */div#post,div#page,div#archive {  background: var(--trans-light);  backdrop-filter: var(--backdrop-filter);  border: var(--border-style);  border-radius: 20px;}/* 导航栏 */#page-header.nav-fixed #nav {  background: rgba(255, 255, 255, 0.75);  backdrop-filter: var(--backdrop-filter);}[data-theme="dark"] #page-header.nav-fixed #nav {  background: rgba(0, 0, 0, 0.7) !important;}/* 夜间模式遮罩 */[data-theme="dark"] #recent-posts > .recent-post-item,[data-theme="dark"] #aside-content .card-widget,[data-theme="dark"] div#post,[data-theme="dark"] div#archive,[data-theme="dark"] div#page {  background: var(--trans-dark);}/* 夜间模式页脚页头遮罩透明 */[data-theme="dark"] #footer::before {  background: transparent !important;}[data-theme="dark"] #page-header::before {  background: transparent !important;}/* 阅读模式 */.read-mode #aside-content .card-widget {  background: rgba(158, 204, 171, 0.5) !important;}.read-mode div#post {  background: rgba(158, 204, 171, 0.5) !important;}/* 夜间模式下的阅读模式 */[data-theme="dark"] .read-mode #aside-content .card-widget {  background: rgba(25, 25, 25, 0.9) !important;  color: #ffffff;}[data-theme="dark"] .read-mode div#post {  background: rgba(25, 25, 25, 0.9) !important;  color: #ffffff;}]]></content>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>我的图库</title>
       <link href="/gallery/index.html"/>
       <url>/gallery/index.html</url>
@@ -1631,11 +1620,11 @@
     
     
     <entry>
-      <title>目录</title>
-      <link href="/categories/index.html"/>
-      <url>/categories/index.html</url>
+      <title></title>
+      <link href="/js/runtime.js"/>
+      <url>/js/runtime.js</url>
       
-        <content type="html"><![CDATA[]]></content>
+        <content type="html"><![CDATA[var now=new Date;function createtime(){now.setTime(now.getTime()+1e3);var e=new Date("08/01/2022 00:00:00"),t=Math.trunc(234e8+(now-e)/1e3*17),a=(t/1496e5).toFixed(6),o=new Date("08/09/2022 00:00:00"),n=(now-o)/1e3/60/60/24,r=Math.floor(n),i=(now-o)/1e3/60/60-24*r,s=Math.floor(i);1==String(s).length&&(s="0"+s);var d=(now-o)/1e3/60-1440*r-60*s,l=Math.floor(d);1==String(l).length&&(l="0"+l);var g=(now-o)/1e3-86400*r-3600*s-60*l,b=Math.round(g);1==String(b).length&&(b="0"+b);let c="";c=s<18&&s>=9?`<img class='boardsign' src='https://sourcebucket.s3.ladydaily.com/badge/F小屋-科研摸鱼中.svg' title='什么时候能够实现财富自由呀~'><br> <div style="font-size:13px;font-weight:bold">本站居然运行了 ${r} 天 ${s} 小时 ${l} 分 ${b} 秒 <i id="heartbeat" class='fas fa-heartbeat'></i> <br> 旅行者 1 号当前距离地球 ${t} 千米，约为 ${a} 个天文单位 🚀</div>`:`<img class='boardsign' src='https://sourcebucket.s3.ladydaily.com/badge/F小屋-下班休息啦.svg' title='下班了就该开开心心地玩耍~'><br> <div style="font-size:13px;font-weight:bold">本站居然运行了 ${r} 天 ${s} 小时 ${l} 分 ${b} 秒 <i id="heartbeat" class='fas fa-heartbeat'></i> <br> 旅行者 1 号当前距离地球 ${t} 千米，约为 ${a} 个天文单位 🚀</div>`,document.getElementById("workboard")&&(document.getElementById("workboard").innerHTML=c)}setInterval((()=>{createtime()}),1e3);]]></content>
       
     </entry>
     
@@ -1653,31 +1642,9 @@
     
     
     <entry>
-      <title>音乐欣赏</title>
-      <link href="/music/index.html"/>
-      <url>/music/index.html</url>
-      
-        <content type="html"><![CDATA[<h2 id="我的歌单"><a href="#我的歌单" class="headerlink" title="我的歌单"></a>我的歌单</h2><div class="aplayer" data-id="7598312909" data-server="netease" data-type="playlist" data-mutex="true" data-preload="auto" data-theme="#3F51B5"></div>]]></content>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>相关链接</title>
-      <link href="/link/index.html"/>
-      <url>/link/index.html</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>标签</title>
-      <link href="/tags/index.html"/>
-      <url>/tags/index.html</url>
+      <title>目录</title>
+      <link href="/categories/index.html"/>
+      <url>/categories/index.html</url>
       
         <content type="html"><![CDATA[]]></content>
       
@@ -1697,11 +1664,44 @@
     
     
     <entry>
-      <title></title>
-      <link href="/js/runtime.js"/>
-      <url>/js/runtime.js</url>
+      <title>相关链接</title>
+      <link href="/link/index.html"/>
+      <url>/link/index.html</url>
       
-        <content type="html"><![CDATA[var now=new Date;function createtime(){now.setTime(now.getTime()+1e3);var e=new Date("08/01/2022 00:00:00"),t=Math.trunc(234e8+(now-e)/1e3*17),a=(t/1496e5).toFixed(6),o=new Date("08/09/2022 00:00:00"),n=(now-o)/1e3/60/60/24,r=Math.floor(n),i=(now-o)/1e3/60/60-24*r,s=Math.floor(i);1==String(s).length&&(s="0"+s);var d=(now-o)/1e3/60-1440*r-60*s,l=Math.floor(d);1==String(l).length&&(l="0"+l);var g=(now-o)/1e3-86400*r-3600*s-60*l,b=Math.round(g);1==String(b).length&&(b="0"+b);let c="";c=s<18&&s>=9?`<img class='boardsign' src='https://sourcebucket.s3.ladydaily.com/badge/F小屋-科研摸鱼中.svg' title='什么时候能够实现财富自由呀~'><br> <div style="font-size:13px;font-weight:bold">本站居然运行了 ${r} 天 ${s} 小时 ${l} 分 ${b} 秒 <i id="heartbeat" class='fas fa-heartbeat'></i> <br> 旅行者 1 号当前距离地球 ${t} 千米，约为 ${a} 个天文单位 🚀</div>`:`<img class='boardsign' src='https://sourcebucket.s3.ladydaily.com/badge/F小屋-下班休息啦.svg' title='下班了就该开开心心地玩耍~'><br> <div style="font-size:13px;font-weight:bold">本站居然运行了 ${r} 天 ${s} 小时 ${l} 分 ${b} 秒 <i id="heartbeat" class='fas fa-heartbeat'></i> <br> 旅行者 1 号当前距离地球 ${t} 千米，约为 ${a} 个天文单位 🚀</div>`,document.getElementById("workboard")&&(document.getElementById("workboard").innerHTML=c)}setInterval((()=>{createtime()}),1e3);]]></content>
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title></title>
+      <link href="/css/custom.css"/>
+      <url>/css/custom.css</url>
+      
+        <content type="html"><![CDATA[:root {  --trans-light: rgba(255, 255, 255, 0.75);  --trans-dark: rgba(25, 25, 25, 0.6);  --border-style: 1px solid rgb(169, 169, 169);  --backdrop-filter: blur(5px) saturate(150%);}/* 翻页按钮居中 */#pagination {    width: 100%;    margin: auto;  }/* 一级菜单居中 */#nav .menus_items {  position: absolute !important;  width: fit-content !important;  left: 50% !important;  transform: translateX(-50%) !important;}/* 子菜单横向展示 */#nav .menus_items .menus_item:hover .menus_item_child {  display: flex !important;}/* 这里的2是代表导航栏的第2个元素，即有子菜单的元素，可以按自己需求修改 */.menus_items .menus_item:nth-child(8) .menus_item_child {  left: -38px;}/* 黑夜霓虹灯 *//* 日间模式不生效 */[data-theme="light"] #site-name,[data-theme="light"] #site-title,[data-theme="light"] #site-subtitle,[data-theme="light"] #post-info {  animation: none;}/* 夜间模式生效 */[data-theme="dark"] #site-name,[data-theme="dark"] #site-title {  animation: light_15px 10s linear infinite;}[data-theme="dark"] #site-subtitle {  animation: light_10px 10s linear infinite;}[data-theme="dark"] #post-info {  animation: light_5px 10s linear infinite;}/* 关键帧描述 */@keyframes light_15px {  0% {    text-shadow: #5636ed 0 0 15px;  }  12.5% {    text-shadow: #11ee5e 0 0 15px;  }  25% {    text-shadow: #f14747 0 0 15px;  }  37.5% {    text-shadow: #f1a247 0 0 15px;  }  50% {    text-shadow: #f1ee47 0 0 15px;  }  50% {    text-shadow: #b347f1 0 0 15px;  }  62.5% {    text-shadow: #002afa 0 0 15px;  }  75% {    text-shadow: #ed709b 0 0 15px;  }  87.5% {    text-shadow: #39c5bb 0 0 15px;  }  100% {    text-shadow: #5636ed 0 0 15px;  }}@keyframes light_10px {  0% {    text-shadow: #5636ed 0 0 10px;  }  12.5% {    text-shadow: #11ee5e 0 0 10px;  }  25% {    text-shadow: #f14747 0 0 10px;  }  37.5% {    text-shadow: #f1a247 0 0 10px;  }  50% {    text-shadow: #f1ee47 0 0 10px;  }  50% {    text-shadow: #b347f1 0 0 10px;  }  62.5% {    text-shadow: #002afa 0 0 10px;  }  75% {    text-shadow: #ed709b 0 0 10px;  }  87.5% {    text-shadow: #39c5bb 0 0 10px;  }  100% {    text-shadow: #5636ed 0 0 10px;  }}@keyframes light_5px {  0% {    text-shadow: #5636ed 0 0 5px;  }  12.5% {    text-shadow: #11ee5e 0 0 5px;  }  25% {    text-shadow: #f14747 0 0 5px;  }  37.5% {    text-shadow: #f1a247 0 0 15px;  }  50% {    text-shadow: #f1ee47 0 0 5px;  }  50% {    text-shadow: #b347f1 0 0 5px;  }  62.5% {    text-shadow: #002afa 0 0 5px;  }  75% {    text-shadow: #ed709b 0 0 5px;  }  87.5% {    text-shadow: #39c5bb 0 0 5px;  }  100% {    text-shadow: #5636ed 0 0 5px;  }}/* 背景宇宙星光  */#universe{  display: block;  position: fixed;  margin: 0;  padding: 0;  border: 0;  outline: 0;  left: 0;  top: 0;  width: 100%;  height: 100%;  pointer-events: none;  /* 这个是调置顶的优先级的，-1在文章页下面，背景上面，个人推荐这种 */  z-index: -1;}/* 侧边栏个人信息卡片动态渐变色 */#aside-content > .card-widget.card-info {  background: linear-gradient(    -45deg,    #e8d8b9,    #eccec5,    #a3e9eb,    #bdbdf0,    #eec1ea  );  box-shadow: 0 0 5px rgb(66, 68, 68);  position: relative;  background-size: 400% 400%;  -webkit-animation: Gradient 10s ease infinite;  -moz-animation: Gradient 10s ease infinite;  animation: Gradient 10s ease infinite !important;}@-webkit-keyframes Gradient {  0% {    background-position: 0% 50%;  }  50% {    background-position: 100% 50%;  }  100% {    background-position: 0% 50%;  }}@-moz-keyframes Gradient {  0% {    background-position: 0% 50%;  }  50% {    background-position: 100% 50%;  }  100% {    background-position: 0% 50%;  }}@keyframes Gradient {  0% {    background-position: 0% 50%;  }  50% {    background-position: 100% 50%;  }  100% {    background-position: 0% 50%;  }}/* 黑夜模式适配 */[data-theme="dark"] #aside-content > .card-widget.card-info {  background: #191919ee;}/* 个人信息Follow me按钮 */#aside-content > .card-widget.card-info > #card-info-btn {  background-color: #3eb8be;  border-radius: 8px;}/* 首页文章卡片 */#recent-posts > .recent-post-item {  background: var(--trans-light);  backdrop-filter: var(--backdrop-filter);  border-radius: 25px;  border: var(--border-style);}/* 首页侧栏卡片 */#aside-content .card-widget {  background: var(--trans-light);  backdrop-filter: var(--backdrop-filter);  border-radius: 18px;  border: var(--border-style);}/* 文章页、归档页、普通页面 */div#post,div#page,div#archive {  background: var(--trans-light);  backdrop-filter: var(--backdrop-filter);  border: var(--border-style);  border-radius: 20px;}/* 导航栏 */#page-header.nav-fixed #nav {  background: rgba(255, 255, 255, 0.75);  backdrop-filter: var(--backdrop-filter);}[data-theme="dark"] #page-header.nav-fixed #nav {  background: rgba(0, 0, 0, 0.7) !important;}/* 夜间模式遮罩 */[data-theme="dark"] #recent-posts > .recent-post-item,[data-theme="dark"] #aside-content .card-widget,[data-theme="dark"] div#post,[data-theme="dark"] div#archive,[data-theme="dark"] div#page {  background: var(--trans-dark);}/* 夜间模式页脚页头遮罩透明 */[data-theme="dark"] #footer::before {  background: transparent !important;}[data-theme="dark"] #page-header::before {  background: transparent !important;}/* 阅读模式 */.read-mode #aside-content .card-widget {  background: rgba(158, 204, 171, 0.5) !important;}.read-mode div#post {  background: rgba(158, 204, 171, 0.5) !important;}/* 夜间模式下的阅读模式 */[data-theme="dark"] .read-mode #aside-content .card-widget {  background: rgba(25, 25, 25, 0.9) !important;  color: #ffffff;}[data-theme="dark"] .read-mode div#post {  background: rgba(25, 25, 25, 0.9) !important;  color: #ffffff;}]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>标签</title>
+      <link href="/tags/index.html"/>
+      <url>/tags/index.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>音乐欣赏</title>
+      <link href="/music/index.html"/>
+      <url>/music/index.html</url>
+      
+        <content type="html"><![CDATA[<h2 id="我的歌单"><a href="#我的歌单" class="headerlink" title="我的歌单"></a>我的歌单</h2><div class="aplayer" data-id="7598312909" data-server="netease" data-type="playlist" data-mutex="true" data-preload="auto" data-theme="#3F51B5"></div>]]></content>
       
     </entry>
     
