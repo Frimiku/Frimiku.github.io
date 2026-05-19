@@ -61,7 +61,7 @@
       <link href="/2024/07/28/music/"/>
       <url>/2024/07/28/music/</url>
       
-        <content type="html"><![CDATA[    <div id="aplayer-spoLrOGp" class="aplayer aplayer-tag-marker meting-tag-marker"         data-id="7598312909" data-server="netease" data-type="playlist" data-mode="circulation" data-autoplay="false" data-mutex="true" data-listmaxheight="340px" data-preload="auto" data-theme="#3F51B5"    ></div>]]></content>
+        <content type="html"><![CDATA[    <div id="aplayer-DLxwdthO" class="aplayer aplayer-tag-marker meting-tag-marker"         data-id="7598312909" data-server="netease" data-type="playlist" data-mode="circulation" data-autoplay="false" data-mutex="true" data-listmaxheight="340px" data-preload="auto" data-theme="#3F51B5"    ></div>]]></content>
       
       
       
@@ -1231,6 +1231,37 @@
     
     
     <entry>
+      <title>大数据之Hadoop（MapReduce过程详解）</title>
+      <link href="/2024/01/17/MapReduce%E8%BF%87%E7%A8%8B%E8%AE%B2%E8%A7%A3/"/>
+      <url>/2024/01/17/MapReduce%E8%BF%87%E7%A8%8B%E8%AE%B2%E8%A7%A3/</url>
+      
+        <content type="html"><![CDATA[<h1 id="MapReduce过程图"><a href="#MapReduce过程图" class="headerlink" title="MapReduce过程图"></a>MapReduce过程图</h1><p><img src="https://gitee.com/LemonWorld/picture/raw/master/img/1-hadoop-mapreduce.png"></p><h1 id="MapReduce过程讲解"><a href="#MapReduce过程讲解" class="headerlink" title="MapReduce过程讲解"></a>MapReduce过程讲解</h1><pre><code>Mapper：    1.RecordReader调用read()来读切片的一行：    2.读到的一行，以LongWritable为键,Text为值；传到Mapper端的map方法中    4.根据业务需求，对Text值进行解析，处理    5.处理完数据后，通过context.write(),将数据送至OutPutCollector中去    6.OutputFormat将数据送到环形缓冲区内    【环形缓冲区默认的大小为100兆】    连续存储，达到【存储总量的80%】时,进行【写盘】操作。    写盘时,会进行两个操作：        先进行【分区】：保证分区为有序的  =&gt;  每个map中分区数量由 job.setNumReduceTasks 决定        再进行【排序】：在同一个分区中，保证键为升序排序  =&gt;  排序方法：快速排序    最后溢出，形成一个小文件，即：写盘操作    ------------------------------------------------------------------------------------    重复过程：        随着RecordReader一行一行的读取,map方法一行一行的处理,环形缓冲区溢出一个一个的小文件        最终：            Mapper端处理结束后，Mapper端会有N个小文件。            【每一个小文件都是分区有序，统一分区内按照键按升序排序的】    ------------------------------------------------------------------------------------    7.将小文件合并为大文件：        合并前：单个小文件分区有序，分区内有序                |                |【归并排序：基于已有序的小文件的同分区合并】                |        合并后：大文件按分区合并。最终分区有序,分区内有序                                    shuffle：    8.每一个Reducer根据自己的分区号，从各个Mapper端中拷贝属于这个分区的数据到Reducer端本地磁盘中。                            Reducer：    9.每个Reducer端,将文件合并起来。        按照【键】进行升序排序  =&gt;  归并排序    10.对文件根据key进行分组,形成一对多的关系:reduce(key,values)    11.根据需求,对其进行聚合操作(例如求和、计数、平均值等),        数据形成了一对一的关系，即每个键对应一个聚合后的值。        通过context.write()，将数据OutPutFormat中去    12.通过OutPutFormat,批量向磁盘中写，形成最终结果：part-r-000000</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 学习主线 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 大数据 </tag>
+            
+            <tag> hadoop </tag>
+            
+            <tag> 离线数仓 </tag>
+            
+            <tag> MapReduce </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>MapReduce之Java端操作（词频统计）</title>
       <link href="/2024/01/17/MapReduce%E4%B9%8BJava%E7%AB%AF%E6%93%8D%E4%BD%9C/"/>
       <url>/2024/01/17/MapReduce%E4%B9%8BJava%E7%AB%AF%E6%93%8D%E4%BD%9C/</url>
@@ -1250,37 +1281,6 @@
             <tag> 大数据 </tag>
             
             <tag> Java </tag>
-            
-            <tag> hadoop </tag>
-            
-            <tag> 离线数仓 </tag>
-            
-            <tag> MapReduce </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>大数据之Hadoop（MapReduce过程详解）</title>
-      <link href="/2024/01/17/MapReduce%E8%BF%87%E7%A8%8B%E8%AE%B2%E8%A7%A3/"/>
-      <url>/2024/01/17/MapReduce%E8%BF%87%E7%A8%8B%E8%AE%B2%E8%A7%A3/</url>
-      
-        <content type="html"><![CDATA[<h1 id="MapReduce过程图"><a href="#MapReduce过程图" class="headerlink" title="MapReduce过程图"></a>MapReduce过程图</h1><p><img src="https://gitee.com/LemonWorld/picture/raw/master/img/1-hadoop-mapreduce.png"></p><h1 id="MapReduce过程讲解"><a href="#MapReduce过程讲解" class="headerlink" title="MapReduce过程讲解"></a>MapReduce过程讲解</h1><pre><code>Mapper：    1.RecordReader调用read()来读切片的一行：    2.读到的一行，以LongWritable为键,Text为值；传到Mapper端的map方法中    4.根据业务需求，对Text值进行解析，处理    5.处理完数据后，通过context.write(),将数据送至OutPutCollector中去    6.OutputFormat将数据送到环形缓冲区内    【环形缓冲区默认的大小为100兆】    连续存储，达到【存储总量的80%】时,进行【写盘】操作。    写盘时,会进行两个操作：        先进行【分区】：保证分区为有序的  =&gt;  每个map中分区数量由 job.setNumReduceTasks 决定        再进行【排序】：在同一个分区中，保证键为升序排序  =&gt;  排序方法：快速排序    最后溢出，形成一个小文件，即：写盘操作    ------------------------------------------------------------------------------------    重复过程：        随着RecordReader一行一行的读取,map方法一行一行的处理,环形缓冲区溢出一个一个的小文件        最终：            Mapper端处理结束后，Mapper端会有N个小文件。            【每一个小文件都是分区有序，统一分区内按照键按升序排序的】    ------------------------------------------------------------------------------------    7.将小文件合并为大文件：        合并前：单个小文件分区有序，分区内有序                |                |【归并排序：基于已有序的小文件的同分区合并】                |        合并后：大文件按分区合并。最终分区有序,分区内有序                                    shuffle：    8.每一个Reducer根据自己的分区号，从各个Mapper端中拷贝属于这个分区的数据到Reducer端本地磁盘中。                            Reducer：    9.每个Reducer端,将文件合并起来。        按照【键】进行升序排序  =&gt;  归并排序    10.对文件根据key进行分组,形成一对多的关系:reduce(key,values)    11.根据需求,对其进行聚合操作(例如求和、计数、平均值等),        数据形成了一对一的关系，即每个键对应一个聚合后的值。        通过context.write()，将数据OutPutFormat中去    12.通过OutPutFormat,批量向磁盘中写，形成最终结果：part-r-000000</code></pre>]]></content>
-      
-      
-      <categories>
-          
-          <category> 学习主线 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 大数据 </tag>
             
             <tag> hadoop </tag>
             
@@ -1609,17 +1609,6 @@
     
     
     <entry>
-      <title>动漫图库</title>
-      <link href="/anime/index.html"/>
-      <url>/anime/index.html</url>
-      
-        <content type="html"><![CDATA[<div class="gallery-container" data-type="data" data-button="true">      <div class="gallery-data">[{"url":"./动漫图片1.jpg","alt":""},{"url":"./动漫图片2.jpg","alt":""},{"url":"./动漫图片3.jpg","alt":""},{"url":"./动漫图片4.jpg","alt":""},{"url":"./动漫图片5.jpg","alt":""},{"url":"./动漫图片6.jpg","alt":""},{"url":"./动漫图片7.jpg","alt":""},{"url":"./动漫图片8.jpg","alt":""},{"url":"./动漫图片9.jpg","alt":""},{"url":"./动漫图片10.jpg","alt":""},{"url":"./动漫图片11.jpg","alt":""},{"url":"./动漫图片12.jpg","alt":""}]</div>      <div class="gallery-items">      </div>    </div>]]></content>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>关于我</title>
       <link href="/about/index.html"/>
       <url>/about/index.html</url>
@@ -1631,22 +1620,11 @@
     
     
     <entry>
-      <title>电影图库</title>
-      <link href="/films/index.html"/>
-      <url>/films/index.html</url>
+      <title>动漫图库</title>
+      <link href="/anime/index.html"/>
+      <url>/anime/index.html</url>
       
-        <content type="html"><![CDATA[<div class="gallery-container" data-type="data" data-button="true">      <div class="gallery-data">[{"url":"./电影图片1.jpg","alt":""},{"url":"./电影图片2.jpg","alt":""},{"url":"./电影图片3.jpg","alt":""}]</div>      <div class="gallery-items">      </div>    </div>]]></content>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>我的图库</title>
-      <link href="/gallery/index.html"/>
-      <url>/gallery/index.html</url>
-      
-        <content type="html"><![CDATA[<div class="gallery-group-main"><figure class="gallery-group">  <img class="gallery-group-img no-lightbox" src='https://i.loli.net/2019/11/10/T7Mu8Aod3egmC4Q.png' alt="Group Image Gallery">  <figcaption>  <div class="gallery-group-name">动漫</div>  <p>收藏的一些动漫壁紙</p>  <a href='/anime'></a>  </figcaption>  </figure>  <figure class="gallery-group">  <img class="gallery-group-img no-lightbox" src='https://i.loli.net/2019/12/25/8t97aVlp4hgyBGu.jpg' alt="Group Image Gallery">  <figcaption>  <div class="gallery-group-name">电影</div>  <p>喜爱的电影圖片</p>  <a href='/films'></a>  </figcaption>  </figure>  </div>]]></content>
+        <content type="html"><![CDATA[<div class="gallery-container" data-type="data" data-button="true">      <div class="gallery-data">[{"url":"./动漫图片1.jpg","alt":""},{"url":"./动漫图片2.jpg","alt":""},{"url":"./动漫图片3.jpg","alt":""},{"url":"./动漫图片4.jpg","alt":""},{"url":"./动漫图片5.jpg","alt":""},{"url":"./动漫图片6.jpg","alt":""},{"url":"./动漫图片7.jpg","alt":""},{"url":"./动漫图片8.jpg","alt":""},{"url":"./动漫图片9.jpg","alt":""},{"url":"./动漫图片10.jpg","alt":""},{"url":"./动漫图片11.jpg","alt":""},{"url":"./动漫图片12.jpg","alt":""}]</div>      <div class="gallery-items">      </div>    </div>]]></content>
       
     </entry>
     
@@ -1675,11 +1653,33 @@
     
     
     <entry>
-      <title></title>
-      <link href="/js/universe.js"/>
-      <url>/js/universe.js</url>
+      <title>电影图库</title>
+      <link href="/films/index.html"/>
+      <url>/films/index.html</url>
       
-        <content type="html"><![CDATA[function dark() {window.requestAnimationFrame=window.requestAnimationFrame||window.mozRequestAnimationFrame||window.webkitRequestAnimationFrame||window.msRequestAnimationFrame;var n,e,i,h,t=.05,s=document.getElementById("universe"),o=!0,a="180,184,240",r="226,225,142",d="226,225,224",c=[];function f(){n=window.innerWidth,e=window.innerHeight,i=.216*n,s.setAttribute("width",n),s.setAttribute("height",e)}function u(){h.clearRect(0,0,n,e);for(var t=c.length,i=0;i<t;i++){var s=c[i];s.move(),s.fadeIn(),s.fadeOut(),s.draw()}}function y(){this.reset=function(){this.giant=m(3),this.comet=!this.giant&&!o&&m(10),this.x=l(0,n-10),this.y=l(0,e),this.r=l(1.1,2.6),this.dx=l(t,6*t)+(this.comet+1-1)*t*l(50,120)+2*t,this.dy=-l(t,6*t)-(this.comet+1-1)*t*l(50,120),this.fadingOut=null,this.fadingIn=!0,this.opacity=0,this.opacityTresh=l(.2,1-.4*(this.comet+1-1)),this.do=l(5e-4,.002)+.001*(this.comet+1-1)},this.fadeIn=function(){this.fadingIn&&(this.fadingIn=!(this.opacity>this.opacityTresh),this.opacity+=this.do)},this.fadeOut=function(){this.fadingOut&&(this.fadingOut=!(this.opacity<0),this.opacity-=this.do/2,(this.x>n||this.y<0)&&(this.fadingOut=!1,this.reset()))},this.draw=function(){if(h.beginPath(),this.giant)h.fillStyle="rgba("+a+","+this.opacity+")",h.arc(this.x,this.y,2,0,2*Math.PI,!1);else if(this.comet){h.fillStyle="rgba("+d+","+this.opacity+")",h.arc(this.x,this.y,1.5,0,2*Math.PI,!1);for(var t=0;t<30;t++)h.fillStyle="rgba("+d+","+(this.opacity-this.opacity/20*t)+")",h.rect(this.x-this.dx/4*t,this.y-this.dy/4*t-2,2,2),h.fill()}else h.fillStyle="rgba("+r+","+this.opacity+")",h.rect(this.x,this.y,this.r,this.r);h.closePath(),h.fill()},this.move=function(){this.x+=this.dx,this.y+=this.dy,!1===this.fadingOut&&this.reset(),(this.x>n-n/4||this.y<0)&&(this.fadingOut=!0)},setTimeout(function(){o=!1},50)}function m(t){return Math.floor(1e3*Math.random())+1<10*t}function l(t,i){return Math.random()*(i-t)+t}f(),window.addEventListener("resize",f,!1),function(){h=s.getContext("2d");for(var t=0;t<i;t++)c[t]=new y,c[t].reset();u()}(),function t(){document.getElementsByTagName('html')[0].getAttribute('data-theme')=='dark'&&u(),window.requestAnimationFrame(t)}()};dark()]]></content>
+        <content type="html"><![CDATA[<div class="gallery-container" data-type="data" data-button="true">      <div class="gallery-data">[{"url":"./电影图片1.jpg","alt":""},{"url":"./电影图片2.jpg","alt":""},{"url":"./电影图片3.jpg","alt":""}]</div>      <div class="gallery-items">      </div>    </div>]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>我的图库</title>
+      <link href="/gallery/index.html"/>
+      <url>/gallery/index.html</url>
+      
+        <content type="html"><![CDATA[<div class="gallery-group-main"><figure class="gallery-group">  <img class="gallery-group-img no-lightbox" src='https://i.loli.net/2019/11/10/T7Mu8Aod3egmC4Q.png' alt="Group Image Gallery">  <figcaption>  <div class="gallery-group-name">动漫</div>  <p>收藏的一些动漫壁紙</p>  <a href='/anime'></a>  </figcaption>  </figure>  <figure class="gallery-group">  <img class="gallery-group-img no-lightbox" src='https://i.loli.net/2019/12/25/8t97aVlp4hgyBGu.jpg' alt="Group Image Gallery">  <figcaption>  <div class="gallery-group-name">电影</div>  <p>喜爱的电影圖片</p>  <a href='/films'></a>  </figcaption>  </figure>  </div>]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>相关链接</title>
+      <link href="/link/index.html"/>
+      <url>/link/index.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
       
     </entry>
     
@@ -1697,11 +1697,11 @@
     
     
     <entry>
-      <title>相关链接</title>
-      <link href="/link/index.html"/>
-      <url>/link/index.html</url>
+      <title></title>
+      <link href="/js/universe.js"/>
+      <url>/js/universe.js</url>
       
-        <content type="html"><![CDATA[]]></content>
+        <content type="html"><![CDATA[function dark() {window.requestAnimationFrame=window.requestAnimationFrame||window.mozRequestAnimationFrame||window.webkitRequestAnimationFrame||window.msRequestAnimationFrame;var n,e,i,h,t=.05,s=document.getElementById("universe"),o=!0,a="180,184,240",r="226,225,142",d="226,225,224",c=[];function f(){n=window.innerWidth,e=window.innerHeight,i=.216*n,s.setAttribute("width",n),s.setAttribute("height",e)}function u(){h.clearRect(0,0,n,e);for(var t=c.length,i=0;i<t;i++){var s=c[i];s.move(),s.fadeIn(),s.fadeOut(),s.draw()}}function y(){this.reset=function(){this.giant=m(3),this.comet=!this.giant&&!o&&m(10),this.x=l(0,n-10),this.y=l(0,e),this.r=l(1.1,2.6),this.dx=l(t,6*t)+(this.comet+1-1)*t*l(50,120)+2*t,this.dy=-l(t,6*t)-(this.comet+1-1)*t*l(50,120),this.fadingOut=null,this.fadingIn=!0,this.opacity=0,this.opacityTresh=l(.2,1-.4*(this.comet+1-1)),this.do=l(5e-4,.002)+.001*(this.comet+1-1)},this.fadeIn=function(){this.fadingIn&&(this.fadingIn=!(this.opacity>this.opacityTresh),this.opacity+=this.do)},this.fadeOut=function(){this.fadingOut&&(this.fadingOut=!(this.opacity<0),this.opacity-=this.do/2,(this.x>n||this.y<0)&&(this.fadingOut=!1,this.reset()))},this.draw=function(){if(h.beginPath(),this.giant)h.fillStyle="rgba("+a+","+this.opacity+")",h.arc(this.x,this.y,2,0,2*Math.PI,!1);else if(this.comet){h.fillStyle="rgba("+d+","+this.opacity+")",h.arc(this.x,this.y,1.5,0,2*Math.PI,!1);for(var t=0;t<30;t++)h.fillStyle="rgba("+d+","+(this.opacity-this.opacity/20*t)+")",h.rect(this.x-this.dx/4*t,this.y-this.dy/4*t-2,2,2),h.fill()}else h.fillStyle="rgba("+r+","+this.opacity+")",h.rect(this.x,this.y,this.r,this.r);h.closePath(),h.fill()},this.move=function(){this.x+=this.dx,this.y+=this.dy,!1===this.fadingOut&&this.reset(),(this.x>n-n/4||this.y<0)&&(this.fadingOut=!0)},setTimeout(function(){o=!1},50)}function m(t){return Math.floor(1e3*Math.random())+1<10*t}function l(t,i){return Math.random()*(i-t)+t}f(),window.addEventListener("resize",f,!1),function(){h=s.getContext("2d");for(var t=0;t<i;t++)c[t]=new y,c[t].reset();u()}(),function t(){document.getElementsByTagName('html')[0].getAttribute('data-theme')=='dark'&&u(),window.requestAnimationFrame(t)}()};dark()]]></content>
       
     </entry>
     
